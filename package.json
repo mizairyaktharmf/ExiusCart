@@ -2,6 +2,7 @@
   "name": "exiuscart",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "npm@10.2.0",
   "description": "ExiusCart - Smart Multi-Shop Business System for UAE",
   "workspaces": [
     "apps/*",
