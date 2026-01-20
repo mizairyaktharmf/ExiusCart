@@ -1,0 +1,33 @@
+{
+  "name": "exiuscart",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ExiusCart - Smart Multi-Shop Business System for UAE",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "start": "turbo run start",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "dev:website": "turbo run dev --filter=@exiuscart/website",
+    "dev:shop": "turbo run dev --filter=@exiuscart/shop-dashboard",
+    "dev:admin": "turbo run dev --filter=@exiuscart/admin-dashboard",
+    "dev:api": "cd apps/api && python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000",
+    "db:migrate": "cd apps/api && alembic upgrade head",
+    "db:makemigrations": "cd apps/api && alembic revision --autogenerate -m"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.0",
+    "prettier": "^3.2.0",
+    "@types/node": "^20.11.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}
