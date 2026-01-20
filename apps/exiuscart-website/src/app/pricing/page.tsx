@@ -40,7 +40,7 @@ export default function PricingPage() {
             {/* Starter */}
             <PricingCard
               name="Starter"
-              price="699"
+              price="599"
               period="one-time"
               description="Perfect for small shops getting started"
               features={[
@@ -58,7 +58,7 @@ export default function PricingPage() {
             {/* Business - Popular */}
             <PricingCard
               name="Business"
-              price="899"
+              price="799"
               period="one-time"
               description="For shops with WhatsApp order needs"
               popular
@@ -77,7 +77,7 @@ export default function PricingPage() {
             {/* Pro */}
             <PricingCard
               name="Pro"
-              price="1,200"
+              price="1,299"
               period="one-time"
               description="Complete solution with inventory"
               features={[
@@ -96,7 +96,7 @@ export default function PricingPage() {
           {/* Monthly Pricing Note */}
           <div className="text-center mt-12">
             <p className="text-gray-500 text-sm">
-              Monthly plans: Starter 69 AED/mo · Business 89 AED/mo · Pro 129 AED/mo
+              Monthly plans: Starter 59 AED/mo · Business 79 AED/mo · Pro 129 AED/mo
             </p>
           </div>
         </div>
@@ -178,7 +178,7 @@ export default function PricingPage() {
             Start your free trial today
           </h2>
           <p className="text-gray-400 mb-10">
-            14 days free. No credit card required. Cancel anytime.
+            7 days free. No credit card required. Cancel anytime.
           </p>
           <Link
             href="/register"
