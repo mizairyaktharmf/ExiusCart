@@ -1,6 +1,6 @@
 # ExiusCart Admin Dashboard
 
-Admin dashboard for the ExiusCart platform - manage shops, users, subscriptions, payments, and platform settings.
+Admin dashboard for the ExiusCart platform - manage leads, shops, users, subscriptions, payments, and platform settings.
 
 ## Tech Stack
 
@@ -50,6 +50,8 @@ apps/admin-dashboard/
 │   │   ├── dashboard/
 │   │   │   ├── page.tsx              # Dashboard overview
 │   │   │   ├── layout.tsx            # Dashboard layout with sidebar
+│   │   │   ├── leads/
+│   │   │   │   └── page.tsx          # Leads management (manual + auto)
 │   │   │   ├── shops/
 │   │   │   │   └── page.tsx          # Shops management
 │   │   │   ├── users/
@@ -98,7 +100,42 @@ Main dashboard with:
 - **Expiring Subscriptions**: List of subscriptions expiring within 7 days
 - **Recent Shops**: Latest registered shops table
 
-### 3. Shops Management (`/dashboard/shops`)
+### 3. Leads Management (`/dashboard/leads`)
+
+Lead generation and tracking system with manual and automatic leads:
+
+**Two Lead Sources**:
+- **Manual Leads**: Added by admin through the form
+- **Automatic Leads**: Captured from free trial signups
+
+**Tabs**:
+- All Leads (combined view)
+- Manual (admin-added leads)
+- From Signups (automatic/trial leads)
+
+**Features**:
+- **Search**: Search by name, shop name, email, license number
+- **Filters**: Status (New, Contacted, Trial, Converted, Expired, Lost)
+- **Stats Summary**: Total Leads, New, In Trial, Contacted, Converted
+- **Table View** (Desktop): Lead info, shop details, contact, source, status, date, actions
+- **Card View** (Mobile/Tablet): Responsive cards with all information
+- **Actions**: View details, Edit, Delete
+
+**Add Lead Form** (Manual):
+- Full Name (required)
+- Shop Name (required)
+- Trade License Number (required)
+- Email Address (required)
+- Phone Number (required)
+- Status (New, Contacted, Trial, Converted, Lost)
+- Notes (optional)
+
+**Automatic Lead Data** (From Signups):
+- All form fields auto-captured
+- Trial start and end dates
+- Signup timestamp
+
+### 4. Shops Management (`/dashboard/shops`)
 
 Complete shop management with:
 - **Search**: Search by shop name, owner, email
@@ -108,7 +145,7 @@ Complete shop management with:
 - **Card View** (Mobile/Tablet): Responsive cards with all information
 - **Actions**: View details, Edit, Suspend/Activate
 
-### 4. Users Management (`/dashboard/users`)
+### 5. Users Management (`/dashboard/users`)
 
 User account management with:
 - **Search**: Search by name, email, shop
@@ -118,7 +155,7 @@ User account management with:
 - **Card View** (Mobile/Tablet): Responsive cards
 - **Actions**: Send verification email, Reset password, More options
 
-### 5. Subscriptions & Plans (`/dashboard/subscriptions`)
+### 6. Subscriptions & Plans (`/dashboard/subscriptions`)
 
 Two-tab interface:
 
@@ -135,7 +172,7 @@ Two-tab interface:
 - Monthly and yearly pricing
 - Edit plan option
 
-### 6. Payments & Transactions (`/dashboard/payments`)
+### 7. Payments & Transactions (`/dashboard/payments`)
 
 Payment management with:
 - **Search**: Search by shop, owner, payment ID, transaction ID
@@ -147,7 +184,7 @@ Payment management with:
 - **Card View** (Mobile/Tablet): Full payment details in cards
 - **Actions**: View details, Approve, Reject (for pending)
 
-### 7. Reports & Analytics (`/dashboard/reports`)
+### 8. Reports & Analytics (`/dashboard/reports`)
 
 Analytics dashboard with:
 - **Date Range Filter**: Last 7 days, 30 days, 90 days, This Year
@@ -158,7 +195,7 @@ Analytics dashboard with:
 - **Quick Stats Grid**: New shops, users, payments in last 30 days
 - **Export Button**: Download reports
 
-### 8. Settings (`/dashboard/settings`)
+### 9. Settings (`/dashboard/settings`)
 
 Five-tab settings interface:
 
@@ -286,6 +323,14 @@ Replace mock data with API calls:
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const api = {
+  // Leads
+  getLeads: (params) => fetch(`${API_URL}/admin/leads?${params}`),
+  getLead: (id) => fetch(`${API_URL}/admin/leads/${id}`),
+  createLead: (data) => fetch(`${API_URL}/admin/leads`, { method: 'POST', body: data }),
+  updateLead: (id, data) => fetch(`${API_URL}/admin/leads/${id}`, { method: 'PATCH', body: data }),
+  deleteLead: (id) => fetch(`${API_URL}/admin/leads/${id}`, { method: 'DELETE' }),
+  convertLead: (id) => fetch(`${API_URL}/admin/leads/${id}/convert`, { method: 'POST' }),
+
   // Shops
   getShops: (params) => fetch(`${API_URL}/admin/shops?${params}`),
   getShop: (id) => fetch(`${API_URL}/admin/shops/${id}`),
@@ -324,6 +369,8 @@ export const api = {
 - [ ] Add optimistic updates for actions
 
 ### Features to Add
+- [ ] Lead detail page (`/dashboard/leads/[id]`)
+- [ ] Lead conversion flow (lead to shop/user)
 - [ ] Shop detail page (`/dashboard/shops/[id]`)
 - [ ] User detail page (`/dashboard/users/[id]`)
 - [ ] Subscription detail/edit page
