@@ -157,7 +157,7 @@ export default function PricingPage() {
             />
             <FAQ
               question="Is there a free trial?"
-              answer="Yes, you get 14 days free trial with full access to all Pro features. No credit card required."
+              answer="Yes, you get 7 days free trial with full access to all Pro features. No credit card required."
             />
             <FAQ
               question="What payment methods do you accept?"

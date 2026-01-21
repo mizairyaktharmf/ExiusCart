@@ -2,41 +2,63 @@
 
 import { Bell, Search, Menu } from 'lucide-react';
 
-export function AdminHeader() {
-  return (
-    <header className="h-16 bg-white border-b flex items-center justify-between px-6">
-      {/* Mobile Menu Button */}
-      <button className="lg:hidden p-2 hover:bg-gray-100 rounded-lg">
-        <Menu className="w-6 h-6" />
-      </button>
+interface HeaderProps {
+  title: string;
+  onMenuClick?: () => void;
+}
 
-      {/* Search */}
-      <div className="hidden md:flex items-center flex-1 max-w-md">
-        <div className="relative w-full">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search shops, payments..."
-            className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
-          />
-        </div>
+export function AdminHeader({ title, onMenuClick }: HeaderProps) {
+  return (
+    <header className="h-16 bg-[#0B1121] border-b border-gray-800 flex items-center justify-between px-4 lg:px-6">
+      {/* Left Side */}
+      <div className="flex items-center gap-4">
+        <button
+          type="button"
+          onClick={onMenuClick}
+          aria-label="Toggle menu"
+          className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition lg:hidden"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+        <h1 className="text-lg font-semibold text-white">{title}</h1>
       </div>
 
       {/* Right Side */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
+        {/* Search */}
+        <div className="hidden md:flex items-center gap-2 bg-[#151F32] rounded-lg px-3 py-2 border border-gray-800">
+          <Search className="w-4 h-4 text-gray-500" />
+          <input
+            type="text"
+            placeholder="Search..."
+            className="bg-transparent border-none outline-none text-sm text-white placeholder-gray-500 w-48"
+          />
+        </div>
+
         {/* Notifications */}
-        <button className="relative p-2 hover:bg-gray-100 rounded-lg">
-          <Bell className="w-6 h-6 text-gray-600" />
-          <span className="absolute top-1 right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
-            3
-          </span>
+        <button
+          type="button"
+          aria-label="Notifications"
+          className="relative p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition"
+        >
+          <Bell className="w-5 h-5" />
+          <span className="absolute top-1 right-1 w-2 h-2 bg-[#F5A623] rounded-full"></span>
         </button>
 
-        {/* Status */}
-        <div className="hidden md:flex items-center gap-2 px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">
-          <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-          System Online
+        {/* Status Badge */}
+        <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-green-500/10 text-green-400 rounded-lg text-xs font-medium">
+          <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+          Online
         </div>
+
+        {/* Mobile Search */}
+        <button
+          type="button"
+          aria-label="Search"
+          className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition md:hidden"
+        >
+          <Search className="w-5 h-5" />
+        </button>
       </div>
     </header>
   );
