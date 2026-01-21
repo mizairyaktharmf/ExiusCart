@@ -12,11 +12,13 @@ import {
   Settings,
   LogOut,
   ChevronLeft,
+  UserPlus,
 } from 'lucide-react';
 import { useState } from 'react';
 
 const menuItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/dashboard/leads', label: 'Leads', icon: UserPlus },
   { href: '/dashboard/shops', label: 'Shops', icon: Store },
   { href: '/dashboard/users', label: 'Users', icon: Users },
   { href: '/dashboard/subscriptions', label: 'Subscriptions', icon: Package },
