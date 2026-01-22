@@ -17,6 +17,11 @@ import {
   Store,
   CreditCard,
   X,
+  ClipboardList,
+  Truck,
+  Receipt,
+  Shield,
+  Wallet,
 } from 'lucide-react';
 
 export const menuItems = [
@@ -25,9 +30,13 @@ export const menuItems = [
   { href: '/dashboard/orders', label: 'Orders', icon: FileText },
   { href: '/dashboard/products', label: 'Products', icon: Package },
   { href: '/dashboard/inventory', label: 'Inventory', icon: Boxes },
+  { href: '/dashboard/purchases', label: 'Purchases', icon: Truck },
+  { href: '/dashboard/quotations', label: 'Quotations', icon: ClipboardList },
+  { href: '/dashboard/expenses', label: 'Expenses', icon: Wallet },
   { href: '/dashboard/customers', label: 'Customers', icon: Users },
   { href: '/dashboard/whatsapp', label: 'WhatsApp', icon: MessageCircle },
   { href: '/dashboard/reports', label: 'Reports', icon: BarChart3 },
+  { href: '/dashboard/staff', label: 'Staff & Roles', icon: Shield },
   { href: '/dashboard/billing', label: 'Billing', icon: CreditCard },
   { href: '/dashboard/settings', label: 'Settings', icon: Settings },
 ];
