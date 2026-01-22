@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { Bell, Search, Menu, User, Sun, Moon } from 'lucide-react';
 import { useTheme } from '@/components/providers/theme-provider';
 
@@ -78,8 +79,8 @@ export function Header({ onMenuClick }: HeaderProps) {
         </button>
 
         {/* Profile */}
-        <button
-          type="button"
+        <Link
+          href="/dashboard/profile"
           aria-label="Profile"
           title="Profile"
           className="flex items-center gap-2 p-2 hover:bg-muted rounded-lg transition"
@@ -88,7 +89,7 @@ export function Header({ onMenuClick }: HeaderProps) {
             <User className="w-5 h-5 text-primary" />
           </div>
           <span className="hidden md:block text-sm font-medium text-foreground">Ahmad</span>
-        </button>
+        </Link>
       </div>
     </header>
   );

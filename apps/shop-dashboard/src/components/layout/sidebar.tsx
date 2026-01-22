@@ -108,9 +108,13 @@ export function ShopSidebar({
           </button>
         </div>
 
-        {/* Shop Info */}
+        {/* Shop Info - Links to Profile */}
         {!collapsed && (
-          <div className="px-4 py-3 border-b border-border">
+          <Link
+            href="/dashboard/profile"
+            onClick={onMobileClose}
+            className="block px-4 py-3 border-b border-border hover:bg-muted/50 transition"
+          >
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
                 <Store className="w-5 h-5 text-primary" />
@@ -123,7 +127,7 @@ export function ShopSidebar({
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
         )}
 
         {/* Navigation */}
