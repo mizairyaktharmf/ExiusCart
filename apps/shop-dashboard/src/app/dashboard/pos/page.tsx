@@ -16,9 +16,10 @@ import {
   Check,
   ShoppingCart,
   Package,
-  ChevronDown,
   User,
+  Download,
 } from 'lucide-react';
+import { generateInvoicePDF, generateThermalReceipt } from '@/lib/invoice-generator';
 
 // Mock products - will come from API
 const mockProducts = [
@@ -56,6 +57,7 @@ export default function POSPage() {
   const [paymentMethod, setPaymentMethod] = useState<'cash' | 'card' | 'split'>('cash');
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
+  const [orderNumber, setOrderNumber] = useState('');
 
   const filteredProducts = mockProducts.filter((product) => {
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -107,14 +109,87 @@ export default function POSPage() {
   };
 
   const handlePayment = () => {
+    // Generate order number
+    const newOrderNumber = `ORD-${Date.now().toString().slice(-6)}`;
+    setOrderNumber(newOrderNumber);
+
     // Process payment - API call
-    console.log('Processing payment:', { cart, total, paymentMethod, customerName, customerPhone });
+    console.log('Processing payment:', { cart, total, paymentMethod, customerName, customerPhone, orderNumber: newOrderNumber });
     setShowCheckout(false);
     setShowReceipt(true);
   };
 
+  // Shop data - will come from API/context
+  const shopData = {
+    name: 'Al Bareek Mobiles',
+    address: 'Shop 12, Al Fahidi Street, Bur Dubai, Dubai, UAE',
+    phone: '+971 4 123 4567',
+    email: 'contact@albareek.ae',
+    vatNumber: '100123456789',
+    tradeLicense: 'TL-2024-123456',
+  };
+
+  const getInvoiceData = () => ({
+    orderNumber,
+    date: new Date(),
+    items: cart.map((item) => ({
+      name: item.name,
+      quantity: item.quantity,
+      price: item.price,
+    })),
+    subtotal,
+    discount: discountAmount,
+    vat: vatAmount,
+    total,
+    paymentMethod,
+    customer: customerName || customerPhone ? {
+      name: customerName || undefined,
+      phone: customerPhone || undefined,
+    } : undefined,
+    shop: shopData,
+  });
+
+  const handleDownloadInvoice = () => {
+    generateInvoicePDF(getInvoiceData());
+  };
+
+  const handlePrintReceipt = () => {
+    generateThermalReceipt(getInvoiceData());
+  };
+
+  const handleShareWhatsApp = () => {
+    if (!customerPhone) {
+      alert('No customer phone number provided');
+      return;
+    }
+
+    const message = `
+🧾 *Invoice from ${shopData.name}*
+
+📋 Order #${orderNumber}
+📅 ${new Date().toLocaleDateString('en-AE')}
+
+*Items:*
+${cart.map((item) => `• ${item.name} x${item.quantity} - ${(item.price * item.quantity).toFixed(2)} AED`).join('\n')}
+
+💰 Subtotal: ${subtotal.toFixed(2)} AED
+${discountAmount > 0 ? `🏷️ Discount: -${discountAmount.toFixed(2)} AED\n` : ''}📊 VAT (5%): ${vatAmount.toFixed(2)} AED
+━━━━━━━━━━━━━━━
+*Total: ${total.toFixed(2)} AED*
+━━━━━━━━━━━━━━━
+
+Paid via: ${paymentMethod.toUpperCase()}
+
+Thank you for shopping with us! 🙏
+    `.trim();
+
+    const whatsappUrl = `https://wa.me/${customerPhone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
   const handleNewSale = () => {
     clearCart();
+    setOrderNumber('');
     setShowReceipt(false);
   };
 
@@ -462,7 +537,7 @@ export default function POSPage() {
                 <Check className="w-8 h-8 text-green-600 dark:text-green-400" />
               </div>
               <h2 className="text-xl font-bold text-foreground">Payment Successful!</h2>
-              <p className="text-muted-foreground text-sm mt-1">Order #ORD-{Date.now().toString().slice(-6)}</p>
+              <p className="text-muted-foreground text-sm mt-1">Order #{orderNumber}</p>
             </div>
 
             {/* Receipt Details */}
@@ -472,17 +547,29 @@ export default function POSPage() {
                 <p className="text-sm text-muted-foreground capitalize">Paid via {paymentMethod}</p>
               </div>
 
-              {/* Actions */}
+              {/* Download A4 Invoice - Primary Action */}
+              <button
+                type="button"
+                onClick={handleDownloadInvoice}
+                className="w-full py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:bg-primary/90 transition flex items-center justify-center gap-2"
+              >
+                <Download className="w-5 h-5" />
+                Download A4 Invoice (PDF)
+              </button>
+
+              {/* Other Actions */}
               <div className="grid grid-cols-2 gap-3">
                 <button
                   type="button"
+                  onClick={handlePrintReceipt}
                   className="flex items-center justify-center gap-2 py-3 px-4 bg-muted rounded-lg text-foreground hover:bg-muted/80 transition"
                 >
                   <Printer className="w-5 h-5" />
-                  <span className="text-sm font-medium">Print</span>
+                  <span className="text-sm font-medium">Thermal</span>
                 </button>
                 <button
                   type="button"
+                  onClick={handleShareWhatsApp}
                   className="flex items-center justify-center gap-2 py-3 px-4 bg-green-500/10 rounded-lg text-green-600 dark:text-green-400 hover:bg-green-500/20 transition"
                 >
                   <MessageCircle className="w-5 h-5" />
@@ -493,7 +580,7 @@ export default function POSPage() {
               <button
                 type="button"
                 onClick={handleNewSale}
-                className="w-full py-4 bg-primary text-primary-foreground rounded-xl font-semibold hover:bg-primary/90 transition"
+                className="w-full py-4 bg-muted text-foreground rounded-xl font-semibold hover:bg-muted/80 transition"
               >
                 New Sale
               </button>
