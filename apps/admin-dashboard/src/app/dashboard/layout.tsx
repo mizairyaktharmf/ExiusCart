@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { AdminSidebar } from '@/components/layout/sidebar';
+import { MobileBottomNav } from '@/components/layout/mobile-bottom-nav';
 
 export default function AdminDashboardLayout({
   children,
@@ -9,6 +10,7 @@ export default function AdminDashboardLayout({
   children: React.ReactNode;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   return (
     <div className="min-h-screen bg-[#0B1121]">
@@ -20,19 +22,25 @@ export default function AdminDashboardLayout({
         />
       )}
 
-      {/* Sidebar */}
-      <div
-        className={`fixed inset-y-0 left-0 z-50 transform lg:transform-none lg:opacity-100 transition-all duration-300 ${
-          sidebarOpen ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0 lg:translate-x-0 lg:opacity-100'
-        }`}
-      >
-        <AdminSidebar />
+      {/* Sidebar - Hidden on mobile, visible on desktop */}
+      <div className="hidden lg:block">
+        <AdminSidebar
+          collapsed={sidebarCollapsed}
+          onCollapsedChange={setSidebarCollapsed}
+        />
       </div>
 
-      {/* Main Content */}
-      <div className="lg:pl-64 min-h-screen transition-all duration-300">
+      {/* Main Content - adjusts padding based on sidebar collapsed state */}
+      <div
+        className={`min-h-screen transition-all duration-300 pb-20 lg:pb-0 ${
+          sidebarCollapsed ? 'lg:pl-20' : 'lg:pl-64'
+        }`}
+      >
         <main className="p-4 lg:p-6">{children}</main>
       </div>
+
+      {/* Mobile Bottom Navigation */}
+      <MobileBottomNav />
     </div>
   );
 }

@@ -14,9 +14,8 @@ import {
   ChevronLeft,
   UserPlus,
 } from 'lucide-react';
-import { useState } from 'react';
 
-const menuItems = [
+export const menuItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/dashboard/leads', label: 'Leads', icon: UserPlus },
   { href: '/dashboard/shops', label: 'Shops', icon: Store },
@@ -27,9 +26,13 @@ const menuItems = [
   { href: '/dashboard/settings', label: 'Settings', icon: Settings },
 ];
 
-export function AdminSidebar() {
+interface AdminSidebarProps {
+  collapsed: boolean;
+  onCollapsedChange: (collapsed: boolean) => void;
+}
+
+export function AdminSidebar({ collapsed, onCollapsedChange }: AdminSidebarProps) {
   const pathname = usePathname();
-  const [collapsed, setCollapsed] = useState(false);
 
   return (
     <aside
@@ -49,7 +52,7 @@ export function AdminSidebar() {
           )}
         </Link>
         <button
-          onClick={() => setCollapsed(!collapsed)}
+          onClick={() => onCollapsedChange(!collapsed)}
           aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           className="p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition hidden lg:block"
         >
