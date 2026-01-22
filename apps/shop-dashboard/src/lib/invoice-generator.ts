@@ -350,9 +350,5 @@ export function generateThermalReceipt(data: InvoiceData): void {
   doc.setFontSize(7);
   doc.text('Powered by ExiusCart', pageWidth / 2, y, { align: 'center' });
 
-  // Auto-resize the PDF height
-  const finalHeight = y + 10;
-  doc.internal.pageSize.setHeight(finalHeight);
-
   doc.save(`Receipt_${data.orderNumber}.pdf`);
 }
