@@ -7,9 +7,12 @@ import {
   Bell,
   Globe,
   Lock,
+  Receipt,
+  Percent,
+  Calculator,
 } from 'lucide-react';
 
-type SettingsTab = 'general' | 'security' | 'notifications';
+type SettingsTab = 'general' | 'tax' | 'security' | 'notifications';
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState<SettingsTab>('general');
@@ -20,6 +23,12 @@ export default function SettingsPage() {
     currency: 'AED',
     timezone: 'Asia/Dubai',
     theme: 'system',
+    // Tax settings
+    vatEnabled: true,
+    vatRate: 5,
+    pricesIncludeVat: true, // Most UAE shops set prices with VAT already included
+    showVatBreakdown: true, // Show VAT breakdown on receipt
+    // Notifications
     emailNotifications: true,
     pushNotifications: true,
     orderAlerts: true,
@@ -29,6 +38,7 @@ export default function SettingsPage() {
 
   const tabs = [
     { id: 'general' as SettingsTab, label: 'General', icon: Settings },
+    { id: 'tax' as SettingsTab, label: 'Tax & VAT', icon: Receipt },
     { id: 'security' as SettingsTab, label: 'Security', icon: Shield },
     { id: 'notifications' as SettingsTab, label: 'Notifications', icon: Bell },
   ];
@@ -121,6 +131,164 @@ export default function SettingsPage() {
                 </select>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Tax & VAT Settings */}
+      {activeTab === 'tax' && (
+        <div className="space-y-6">
+          {/* VAT Configuration */}
+          <div className="bg-card rounded-xl border border-border p-6">
+            <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
+              <Percent className="w-5 h-5 text-primary" />
+              VAT Configuration
+            </h2>
+
+            {/* UAE VAT Info */}
+            <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6">
+              <p className="text-sm text-foreground font-medium">UAE VAT Rate: 5%</p>
+              <p className="text-xs text-muted-foreground mt-1">
+                Standard VAT rate in UAE is 5%. This is applied to most goods and services.
+              </p>
+            </div>
+
+            <div className="space-y-6">
+              {/* VAT Enabled Toggle */}
+              <div className="flex items-center justify-between py-3 border-b border-border">
+                <div>
+                  <p className="font-medium text-foreground">Enable VAT</p>
+                  <p className="text-sm text-muted-foreground">Apply VAT to transactions</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSettings({ ...settings, vatEnabled: !settings.vatEnabled })}
+                  className={`relative w-12 h-6 rounded-full transition ${
+                    settings.vatEnabled ? 'bg-primary' : 'bg-muted'
+                  }`}
+                >
+                  <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${
+                    settings.vatEnabled ? 'left-7' : 'left-1'
+                  }`} />
+                </button>
+              </div>
+
+              {settings.vatEnabled && (
+                <>
+                  {/* VAT Rate */}
+                  <div>
+                    <label htmlFor="vatRate" className="text-sm text-muted-foreground mb-1.5 block">VAT Rate (%)</label>
+                    <select
+                      id="vatRate"
+                      title="VAT Rate"
+                      value={settings.vatRate}
+                      onChange={(e) => setSettings({ ...settings, vatRate: Number(e.target.value) })}
+                      className="w-full sm:w-48 px-3 py-2.5 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-foreground"
+                    >
+                      <option value={0}>0% (Exempt)</option>
+                      <option value={5}>5% (UAE Standard)</option>
+                    </select>
+                  </div>
+
+                  {/* Prices Include VAT - IMPORTANT SETTING */}
+                  <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-5">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Calculator className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+                          <p className="font-semibold text-foreground">Prices Include VAT</p>
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-3">
+                          {settings.pricesIncludeVat
+                            ? "Your product prices already include VAT. No extra VAT will be added at checkout."
+                            : "Your product prices do NOT include VAT. 5% VAT will be added at checkout."
+                          }
+                        </p>
+                        <div className="bg-background/50 rounded-lg p-3 text-xs">
+                          <p className="font-medium text-foreground mb-1">Example: iPhone priced at 4,299 AED</p>
+                          {settings.pricesIncludeVat ? (
+                            <div className="text-muted-foreground space-y-0.5">
+                              <p>• Customer pays: <span className="text-foreground font-medium">4,299 AED</span></p>
+                              <p>• VAT included: <span className="text-foreground">204.71 AED</span></p>
+                              <p>• Net price: <span className="text-foreground">4,094.29 AED</span></p>
+                            </div>
+                          ) : (
+                            <div className="text-muted-foreground space-y-0.5">
+                              <p>• Product price: <span className="text-foreground">4,299 AED</span></p>
+                              <p>• VAT (5%): <span className="text-foreground">+214.95 AED</span></p>
+                              <p>• Customer pays: <span className="text-foreground font-medium">4,513.95 AED</span></p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setSettings({ ...settings, pricesIncludeVat: !settings.pricesIncludeVat })}
+                        className={`relative w-14 h-7 rounded-full transition flex-shrink-0 ${
+                          settings.pricesIncludeVat ? 'bg-green-500' : 'bg-muted'
+                        }`}
+                      >
+                        <div className={`absolute top-1 w-5 h-5 bg-white rounded-full transition-all shadow ${
+                          settings.pricesIncludeVat ? 'left-8' : 'left-1'
+                        }`} />
+                      </button>
+                    </div>
+                    <p className="text-xs text-amber-600 dark:text-amber-400 mt-3 font-medium">
+                      {settings.pricesIncludeVat ? '✓ Recommended for UAE retail shops' : '⚠️ VAT will be added to all prices at checkout'}
+                    </p>
+                  </div>
+
+                  {/* Show VAT Breakdown */}
+                  <div className="flex items-center justify-between py-3">
+                    <div>
+                      <p className="font-medium text-foreground">Show VAT Breakdown on Receipt</p>
+                      <p className="text-sm text-muted-foreground">Display VAT amount separately on invoices</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setSettings({ ...settings, showVatBreakdown: !settings.showVatBreakdown })}
+                      className={`relative w-12 h-6 rounded-full transition ${
+                        settings.showVatBreakdown ? 'bg-primary' : 'bg-muted'
+                      }`}
+                    >
+                      <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${
+                        settings.showVatBreakdown ? 'left-7' : 'left-1'
+                      }`} />
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* Tax Registration Info */}
+          <div className="bg-card rounded-xl border border-border p-6">
+            <h2 className="text-lg font-semibold text-foreground mb-4">Tax Registration</h2>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label className="text-sm text-muted-foreground mb-1.5 block">TRN (Tax Registration Number)</label>
+                <input
+                  type="text"
+                  placeholder="100123456789003"
+                  className="w-full px-3 py-2.5 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-foreground"
+                />
+                <p className="text-xs text-muted-foreground mt-1">15-digit TRN from Federal Tax Authority</p>
+              </div>
+              <div>
+                <label className="text-sm text-muted-foreground mb-1.5 block">Trade License Number</label>
+                <input
+                  type="text"
+                  placeholder="TL-2024-123456"
+                  className="w-full px-3 py-2.5 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-foreground"
+                />
+              </div>
+            </div>
+            <button
+              type="button"
+              className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition"
+            >
+              Save Tax Info
+            </button>
           </div>
         </div>
       )}

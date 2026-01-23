@@ -390,7 +390,6 @@ function ProductModal({
     sellingPrice: product?.sellingPrice || 0,
     stock: product?.stock || 0,
     lowStockAlert: product?.lowStockAlert || 5,
-    vatPercent: product?.vatPercent || 5,
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -492,17 +491,15 @@ function ProductModal({
             </div>
           </div>
 
-          {/* VAT */}
-          <div>
-            <label className="text-sm text-muted-foreground mb-1.5 block">VAT %</label>
-            <input
-              type="number"
-              value={formData.vatPercent}
-              onChange={(e) => setFormData({ ...formData, vatPercent: Number(e.target.value) })}
-              min="0"
-              max="100"
-              className="w-full px-3 py-2.5 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-foreground"
-            />
+          {/* VAT Info Banner */}
+          <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-3">
+            <p className="text-sm font-medium text-green-700 dark:text-green-400">
+              Price includes VAT (5%)
+            </p>
+            <p className="text-xs text-muted-foreground mt-1">
+              Your shop is set to include VAT in prices. No extra VAT will be charged at checkout.
+              <a href="/dashboard/settings" className="text-primary hover:underline ml-1">Change in Settings</a>
+            </p>
           </div>
 
           {/* Stock */}

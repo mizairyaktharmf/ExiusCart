@@ -46,6 +46,14 @@ interface CartItem {
   quantity: number;
 }
 
+// Shop VAT settings - will come from context/API in production
+const shopVatSettings = {
+  vatEnabled: true,
+  vatRate: 5, // 5% UAE VAT
+  pricesIncludeVat: true, // Most UAE shops set prices with VAT already included
+  showVatBreakdown: true,
+};
+
 export default function POSPage() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -54,7 +62,7 @@ export default function POSPage() {
   const [discountType, setDiscountType] = useState<'percent' | 'fixed'>('percent');
   const [showCheckout, setShowCheckout] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<'cash' | 'card' | 'split'>('cash');
+  const [paymentMethod, setPaymentMethod] = useState<'cash' | 'card' | 'tamara' | 'tabby'>('cash');
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
   const [orderNumber, setOrderNumber] = useState('');
@@ -98,10 +106,35 @@ export default function POSPage() {
     setCustomerPhone('');
   };
 
-  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const discountAmount = discountType === 'percent' ? (subtotal * discount) / 100 : discount;
-  const vatAmount = (subtotal - discountAmount) * 0.05; // 5% VAT
-  const total = subtotal - discountAmount + vatAmount;
+  // Calculate totals based on VAT settings
+  const cartTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const discountAmount = discountType === 'percent' ? (cartTotal * discount) / 100 : discount;
+  const afterDiscount = cartTotal - discountAmount;
+
+  // VAT calculation depends on whether prices include VAT or not
+  let subtotal: number;
+  let vatAmount: number;
+  let total: number;
+
+  if (!shopVatSettings.vatEnabled || shopVatSettings.vatRate === 0) {
+    // No VAT
+    subtotal = afterDiscount;
+    vatAmount = 0;
+    total = afterDiscount;
+  } else if (shopVatSettings.pricesIncludeVat) {
+    // Prices INCLUDE VAT (most common in UAE retail)
+    // Price shown = Final price (VAT already inside)
+    // We need to extract VAT from the total for display purposes
+    // Formula: VAT = Total - (Total / 1.05)
+    total = afterDiscount; // Customer pays this amount (no extra VAT added)
+    vatAmount = total - (total / (1 + shopVatSettings.vatRate / 100));
+    subtotal = total - vatAmount; // Net amount before VAT
+  } else {
+    // Prices EXCLUDE VAT (VAT added on top)
+    subtotal = afterDiscount;
+    vatAmount = subtotal * (shopVatSettings.vatRate / 100);
+    total = subtotal + vatAmount;
+  }
 
   const handleCheckout = () => {
     if (cart.length === 0) return;
@@ -178,7 +211,7 @@ ${discountAmount > 0 ? `🏷️ Discount: -${discountAmount.toFixed(2)} AED\n` :
 *Total: ${total.toFixed(2)} AED*
 ━━━━━━━━━━━━━━━
 
-Paid via: ${paymentMethod.toUpperCase()}
+Paid via: ${paymentMethod === 'tamara' ? 'Tamara' : paymentMethod === 'tabby' ? 'Tabby' : paymentMethod.charAt(0).toUpperCase() + paymentMethod.slice(1)}
 
 Thank you for shopping with us! 🙏
     `.trim();
@@ -359,24 +392,55 @@ Thank you for shopping with us! 🙏
 
         {/* Cart Summary */}
         <div className="p-4 border-t border-border space-y-2">
-          <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">Subtotal</span>
-            <span className="text-foreground">{subtotal.toFixed(2)} AED</span>
-          </div>
-          {discountAmount > 0 && (
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Discount</span>
-              <span className="text-green-600 dark:text-green-400">-{discountAmount.toFixed(2)} AED</span>
-            </div>
+          {shopVatSettings.pricesIncludeVat ? (
+            // Prices INCLUDE VAT - show total first, then breakdown
+            <>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Items Total</span>
+                <span className="text-foreground">{cartTotal.toFixed(2)} AED</span>
+              </div>
+              {discountAmount > 0 && (
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">Discount</span>
+                  <span className="text-green-600 dark:text-green-400">-{discountAmount.toFixed(2)} AED</span>
+                </div>
+              )}
+              {shopVatSettings.showVatBreakdown && shopVatSettings.vatEnabled && (
+                <div className="flex justify-between text-sm text-muted-foreground">
+                  <span className="text-xs">(incl. VAT {shopVatSettings.vatRate}%)</span>
+                  <span className="text-xs">{vatAmount.toFixed(2)} AED</span>
+                </div>
+              )}
+              <div className="flex justify-between text-lg font-bold pt-2 border-t border-border">
+                <span className="text-foreground">Total</span>
+                <span className="text-primary">{total.toFixed(2)} AED</span>
+              </div>
+            </>
+          ) : (
+            // Prices EXCLUDE VAT - show subtotal, then add VAT
+            <>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Subtotal</span>
+                <span className="text-foreground">{cartTotal.toFixed(2)} AED</span>
+              </div>
+              {discountAmount > 0 && (
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">Discount</span>
+                  <span className="text-green-600 dark:text-green-400">-{discountAmount.toFixed(2)} AED</span>
+                </div>
+              )}
+              {shopVatSettings.vatEnabled && shopVatSettings.vatRate > 0 && (
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">VAT ({shopVatSettings.vatRate}%)</span>
+                  <span className="text-foreground">+{vatAmount.toFixed(2)} AED</span>
+                </div>
+              )}
+              <div className="flex justify-between text-lg font-bold pt-2 border-t border-border">
+                <span className="text-foreground">Total</span>
+                <span className="text-primary">{total.toFixed(2)} AED</span>
+              </div>
+            </>
           )}
-          <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">VAT (5%)</span>
-            <span className="text-foreground">{vatAmount.toFixed(2)} AED</span>
-          </div>
-          <div className="flex justify-between text-lg font-bold pt-2 border-t border-border">
-            <span className="text-foreground">Total</span>
-            <span className="text-primary">{total.toFixed(2)} AED</span>
-          </div>
         </div>
 
         {/* Checkout Button */}
@@ -437,7 +501,7 @@ Thank you for shopping with us! 🙏
               {/* Payment Method */}
               <div>
                 <h3 className="text-sm font-medium text-foreground mb-3">Payment Method</h3>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-2 gap-3">
                   <button
                     type="button"
                     onClick={() => setPaymentMethod('cash')}
@@ -464,18 +528,35 @@ Thank you for shopping with us! 🙏
                   </button>
                   <button
                     type="button"
-                    onClick={() => setPaymentMethod('split')}
+                    onClick={() => setPaymentMethod('tamara')}
                     className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition ${
-                      paymentMethod === 'split'
-                        ? 'border-primary bg-primary/5'
-                        : 'border-border hover:border-primary/50'
+                      paymentMethod === 'tamara'
+                        ? 'border-[#3BFFC1] bg-[#3BFFC1]/10'
+                        : 'border-border hover:border-[#3BFFC1]/50'
                     }`}
                   >
-                    <div className="flex">
-                      <Banknote className={`w-5 h-5 ${paymentMethod === 'split' ? 'text-primary' : 'text-muted-foreground'}`} />
-                      <CreditCard className={`w-5 h-5 -ml-1 ${paymentMethod === 'split' ? 'text-primary' : 'text-muted-foreground'}`} />
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs ${
+                      paymentMethod === 'tamara' ? 'bg-[#3BFFC1] text-black' : 'bg-[#3BFFC1]/20 text-[#3BFFC1]'
+                    }`}>
+                      T
                     </div>
-                    <span className={`text-sm font-medium ${paymentMethod === 'split' ? 'text-primary' : 'text-foreground'}`}>Split</span>
+                    <span className={`text-sm font-medium ${paymentMethod === 'tamara' ? 'text-[#3BFFC1]' : 'text-foreground'}`}>Tamara</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod('tabby')}
+                    className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition ${
+                      paymentMethod === 'tabby'
+                        ? 'border-[#3BFAC5] bg-[#3BFAC5]/10'
+                        : 'border-border hover:border-[#3BFAC5]/50'
+                    }`}
+                  >
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs ${
+                      paymentMethod === 'tabby' ? 'bg-[#3BFAC5] text-black' : 'bg-[#3BFAC5]/20 text-[#3BFAC5]'
+                    }`}>
+                      T
+                    </div>
+                    <span className={`text-sm font-medium ${paymentMethod === 'tabby' ? 'text-[#3BFAC5]' : 'text-foreground'}`}>Tabby</span>
                   </button>
                 </div>
               </div>
@@ -491,20 +572,47 @@ Thank you for shopping with us! 🙏
                     </div>
                   ))}
                   <div className="border-t border-border pt-2 mt-2">
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Subtotal</span>
-                      <span className="text-foreground">{subtotal.toFixed(2)} AED</span>
-                    </div>
-                    {discountAmount > 0 && (
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Discount</span>
-                        <span className="text-green-600 dark:text-green-400">-{discountAmount.toFixed(2)} AED</span>
-                      </div>
+                    {shopVatSettings.pricesIncludeVat ? (
+                      // Prices INCLUDE VAT
+                      <>
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">Items Total</span>
+                          <span className="text-foreground">{cartTotal.toFixed(2)} AED</span>
+                        </div>
+                        {discountAmount > 0 && (
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Discount</span>
+                            <span className="text-green-600 dark:text-green-400">-{discountAmount.toFixed(2)} AED</span>
+                          </div>
+                        )}
+                        {shopVatSettings.showVatBreakdown && shopVatSettings.vatEnabled && (
+                          <div className="flex justify-between text-muted-foreground">
+                            <span className="text-xs">(incl. VAT {shopVatSettings.vatRate}%)</span>
+                            <span className="text-xs">{vatAmount.toFixed(2)} AED</span>
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      // Prices EXCLUDE VAT
+                      <>
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">Subtotal</span>
+                          <span className="text-foreground">{cartTotal.toFixed(2)} AED</span>
+                        </div>
+                        {discountAmount > 0 && (
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">Discount</span>
+                            <span className="text-green-600 dark:text-green-400">-{discountAmount.toFixed(2)} AED</span>
+                          </div>
+                        )}
+                        {shopVatSettings.vatEnabled && shopVatSettings.vatRate > 0 && (
+                          <div className="flex justify-between">
+                            <span className="text-muted-foreground">VAT ({shopVatSettings.vatRate}%)</span>
+                            <span className="text-foreground">+{vatAmount.toFixed(2)} AED</span>
+                          </div>
+                        )}
+                      </>
                     )}
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">VAT (5%)</span>
-                      <span className="text-foreground">{vatAmount.toFixed(2)} AED</span>
-                    </div>
                     <div className="flex justify-between font-bold text-base pt-2 border-t border-border mt-2">
                       <span className="text-foreground">Total</span>
                       <span className="text-primary">{total.toFixed(2)} AED</span>
@@ -544,7 +652,9 @@ Thank you for shopping with us! 🙏
             <div className="p-6 space-y-4">
               <div className="text-center">
                 <p className="text-3xl font-bold text-primary">{total.toFixed(2)} AED</p>
-                <p className="text-sm text-muted-foreground capitalize">Paid via {paymentMethod}</p>
+                <p className="text-sm text-muted-foreground">
+                  Paid via {paymentMethod === 'tamara' ? 'Tamara' : paymentMethod === 'tabby' ? 'Tabby' : paymentMethod.charAt(0).toUpperCase() + paymentMethod.slice(1)}
+                </p>
               </div>
 
               {/* Download A4 Invoice - Primary Action */}
