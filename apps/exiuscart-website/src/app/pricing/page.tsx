@@ -1,12 +1,38 @@
+'use client';
+
 import Link from 'next/link';
+import { useState } from 'react';
 import { ArrowRight, Check, X, Printer, Users, Package, MessageCircle } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 
 export default function PricingPage() {
+  const [showComingSoon, setShowComingSoon] = useState(false);
+
   return (
     <div className="min-h-screen bg-[#0B1121]">
       <Navbar />
+
+      {/* Coming Soon Modal */}
+      {showComingSoon && (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4" onClick={() => setShowComingSoon(false)}>
+          <div className="bg-[#151F32] rounded-2xl border border-gray-700 p-8 max-w-sm text-center" onClick={(e) => e.stopPropagation()}>
+            <div className="w-16 h-16 bg-[#F5A623]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-3xl">🚀</span>
+            </div>
+            <h3 className="text-xl font-bold text-white mb-2">Coming Soon!</h3>
+            <p className="text-gray-400 mb-6">
+              Monthly subscription plans are coming soon. For now, enjoy our one-time payment options with lifetime access!
+            </p>
+            <button
+              onClick={() => setShowComingSoon(false)}
+              className="px-6 py-2.5 bg-[#F5A623] hover:bg-[#E09612] text-black font-semibold rounded-lg transition-all"
+            >
+              Got it!
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Hero */}
       <section className="pt-28 pb-16 px-4">
@@ -30,7 +56,10 @@ export default function PricingPage() {
               <button className="px-6 py-2 rounded-md bg-[#F5A623] text-black font-medium text-sm">
                 One-time
               </button>
-              <button className="px-6 py-2 rounded-md text-gray-400 font-medium text-sm">
+              <button
+                onClick={() => setShowComingSoon(true)}
+                className="px-6 py-2 rounded-md text-gray-400 font-medium text-sm hover:text-gray-300 transition-colors"
+              >
                 Monthly
               </button>
             </div>
@@ -40,7 +69,8 @@ export default function PricingPage() {
             {/* Starter */}
             <PricingCard
               name="Starter"
-              price="599"
+              price="499"
+              originalPrice="599"
               period="one-time"
               description="Perfect for small shops getting started"
               highlights={[
@@ -60,24 +90,24 @@ export default function PricingPage() {
               ]}
               addon={{
                 text: 'Need more staff?',
-                price: '+129 AED/staff',
+                price: '+99 AED/staff',
               }}
             />
 
             {/* Business */}
             <PricingCard
               name="Business"
-              price="799"
+              price="699"
+              originalPrice="799"
               period="one-time"
               description="For growing shops needing more capacity"
               highlights={[
-                { icon: Package, text: 'Unlimited Products' },
-                { icon: Users, text: '2 User Access' },
+                { icon: Package, text: '50 Products' },
+                { icon: Users, text: '1 User Access' },
               ]}
               features={[
                 { text: 'Everything in Starter', included: true },
-                { text: 'Unlimited Product Listing', included: true },
-                { text: '2 Staff Accounts (Owner + 1)', included: true },
+                { text: 'Product Management (50 max)', included: true },  
                 { text: 'Advanced Reports', included: true },
                 { text: 'Customer Insights', included: true },
                 { text: 'WhatsApp Orders', included: false },
@@ -87,20 +117,21 @@ export default function PricingPage() {
               ]}
               addon={{
                 text: 'Need more staff?',
-                price: '+129 AED/staff',
+                price: '+99 AED/staff',
               }}
             />
 
             {/* Pro - Popular */}
             <PricingCard
               name="Pro"
-              price="1,299"
+              price="999"
+              originalPrice="1,199"
               period="one-time"
               description="Complete solution with WhatsApp & Inventory"
               popular
               highlights={[
-                { icon: Package, text: 'Unlimited Products' },
-                { icon: Users, text: 'Multiple Staff' },
+                { icon: Package, text: '100 Products' },
+                { icon: Users, text: '2 User Access' },
                 { icon: MessageCircle, text: 'WhatsApp Orders' },
               ]}
               features={[
@@ -116,14 +147,15 @@ export default function PricingPage() {
               ]}
               addon={{
                 text: 'Need more staff?',
-                price: '+129 AED/staff',
+                price: '+99 AED/staff',
               }}
             />
 
             {/* Pro+ with Thermal Printer */}
             <PricingCard
               name="Pro+"
-              price="1,499"
+              price="1,299"
+              originalPrice="1,499"
               period="one-time"
               description="Everything + Free Thermal Printer"
               badge="Best Value"
@@ -140,19 +172,11 @@ export default function PricingPage() {
                 { text: 'Custom Receipt Branding', included: true },
                 { text: 'Printer Setup Support', included: true },
                 { text: 'Unlimited Staff Accounts', included: true },
-                { text: 'Dedicated Account Manager', included: true },
                 { text: 'On-site Setup Assistance', included: true },
                 { text: 'Lifetime Priority Support', included: true },
               ]}
               isProPlus
             />
-          </div>
-
-          {/* Monthly Pricing Note */}
-          <div className="text-center mt-12">
-            <p className="text-gray-500 text-sm">
-              Monthly plans: Starter 59 AED/mo · Business 79 AED/mo · Pro 129 AED/mo · Pro+ 149 AED/mo
-            </p>
           </div>
 
           {/* Add-on Info */}
@@ -162,7 +186,7 @@ export default function PricingPage() {
               <h3 className="text-white font-semibold">Need Additional Staff?</h3>
             </div>
             <p className="text-gray-400 text-sm">
-              Add extra staff accounts to any plan for just <span className="text-[#F5A623] font-semibold">+129 AED</span> per staff member (one-time).
+              Add extra staff accounts to any plan for just <span className="text-[#F5A623] font-semibold">+99 AED</span> per staff member (one-time).
               Perfect for expanding teams without upgrading your entire plan.
             </p>
           </div>
@@ -279,6 +303,7 @@ export default function PricingPage() {
 function PricingCard({
   name,
   price,
+  originalPrice,
   period,
   description,
   features,
@@ -290,6 +315,7 @@ function PricingCard({
 }: {
   name: string;
   price: string;
+  originalPrice?: string;
   period: string;
   description: string;
   features: { text: string; included: boolean }[];
@@ -319,10 +345,18 @@ function PricingCard({
       <h3 className="text-xl font-bold text-white mb-2">{name}</h3>
       <p className="text-gray-500 text-sm mb-4">{description}</p>
 
-      <div className="flex items-baseline gap-1 mb-4">
-        <span className="text-3xl font-bold text-white">{price}</span>
-        <span className="text-gray-500">AED</span>
-        <span className="text-gray-500 text-sm">/ {period}</span>
+      <div className="mb-4">
+        {originalPrice && (
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-lg text-gray-500 line-through">{originalPrice} AED</span>
+            <span className="text-xs font-semibold bg-red-500/20 text-red-400 px-2 py-0.5 rounded">SAVE {(parseFloat(originalPrice.replace(',', '')) - parseFloat(price.replace(',', ''))).toFixed(1)} AED</span>
+          </div>
+        )}
+        <div className="flex items-baseline gap-1">
+          <span className="text-3xl font-bold text-white">{price}</span>
+          <span className="text-gray-500">AED</span>
+          <span className="text-gray-500 text-sm">/ {period}</span>
+        </div>
       </div>
 
       {/* Highlights */}
