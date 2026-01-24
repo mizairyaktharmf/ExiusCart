@@ -85,8 +85,9 @@ export default function SettingsPage() {
             </h2>
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-sm text-muted-foreground mb-1.5 block">Language</label>
+                <label htmlFor="language-select" className="text-sm text-muted-foreground mb-1.5 block">Language</label>
                 <select
+                  id="language-select"
                   value={settings.language}
                   onChange={(e) => setSettings({ ...settings, language: e.target.value })}
                   className="w-full px-3 py-2.5 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-foreground"
@@ -96,8 +97,9 @@ export default function SettingsPage() {
                 </select>
               </div>
               <div>
-                <label className="text-sm text-muted-foreground mb-1.5 block">Currency</label>
+                <label htmlFor="currency-select" className="text-sm text-muted-foreground mb-1.5 block">Currency</label>
                 <select
+                  id="currency-select"
                   value={settings.currency}
                   onChange={(e) => setSettings({ ...settings, currency: e.target.value })}
                   className="w-full px-3 py-2.5 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-foreground"
@@ -108,8 +110,9 @@ export default function SettingsPage() {
                 </select>
               </div>
               <div>
-                <label className="text-sm text-muted-foreground mb-1.5 block">Timezone</label>
+                <label htmlFor="timezone-select" className="text-sm text-muted-foreground mb-1.5 block">Timezone</label>
                 <select
+                  id="timezone-select"
                   value={settings.timezone}
                   onChange={(e) => setSettings({ ...settings, timezone: e.target.value })}
                   className="w-full px-3 py-2.5 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-foreground"
@@ -119,8 +122,9 @@ export default function SettingsPage() {
                 </select>
               </div>
               <div>
-                <label className="text-sm text-muted-foreground mb-1.5 block">Theme</label>
+                <label htmlFor="theme-select" className="text-sm text-muted-foreground mb-1.5 block">Theme</label>
                 <select
+                  id="theme-select"
                   value={settings.theme}
                   onChange={(e) => setSettings({ ...settings, theme: e.target.value })}
                   className="w-full px-3 py-2.5 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-foreground"
@@ -163,6 +167,7 @@ export default function SettingsPage() {
                 <button
                   type="button"
                   onClick={() => setSettings({ ...settings, vatEnabled: !settings.vatEnabled })}
+                  aria-label={`Enable VAT - currently ${settings.vatEnabled ? 'on' : 'off'}`}
                   className={`relative w-12 h-6 rounded-full transition ${
                     settings.vatEnabled ? 'bg-primary' : 'bg-muted'
                   }`}
@@ -224,6 +229,7 @@ export default function SettingsPage() {
                       <button
                         type="button"
                         onClick={() => setSettings({ ...settings, pricesIncludeVat: !settings.pricesIncludeVat })}
+                        aria-label={`Prices include VAT - currently ${settings.pricesIncludeVat ? 'on' : 'off'}`}
                         className={`relative w-14 h-7 rounded-full transition flex-shrink-0 ${
                           settings.pricesIncludeVat ? 'bg-green-500' : 'bg-muted'
                         }`}
@@ -247,6 +253,7 @@ export default function SettingsPage() {
                     <button
                       type="button"
                       onClick={() => setSettings({ ...settings, showVatBreakdown: !settings.showVatBreakdown })}
+                      aria-label={`Show VAT breakdown on receipt - currently ${settings.showVatBreakdown ? 'on' : 'off'}`}
                       className={`relative w-12 h-6 rounded-full transition ${
                         settings.showVatBreakdown ? 'bg-primary' : 'bg-muted'
                       }`}
@@ -303,26 +310,29 @@ export default function SettingsPage() {
             </h2>
             <div className="space-y-4">
               <div>
-                <label className="text-sm text-muted-foreground mb-1.5 block">Current Password</label>
+                <label htmlFor="current-password" className="text-sm text-muted-foreground mb-1.5 block">Current Password</label>
                 <input
                   type="password"
+                  id="current-password"
                   placeholder="Enter current password"
                   className="w-full px-3 py-2.5 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-foreground"
                 />
               </div>
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm text-muted-foreground mb-1.5 block">New Password</label>
+                  <label htmlFor="new-password" className="text-sm text-muted-foreground mb-1.5 block">New Password</label>
                   <input
                     type="password"
+                    id="new-password"
                     placeholder="Enter new password"
                     className="w-full px-3 py-2.5 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-foreground"
                   />
                 </div>
                 <div>
-                  <label className="text-sm text-muted-foreground mb-1.5 block">Confirm Password</label>
+                  <label htmlFor="confirm-password" className="text-sm text-muted-foreground mb-1.5 block">Confirm Password</label>
                   <input
                     type="password"
+                    id="confirm-password"
                     placeholder="Confirm new password"
                     className="w-full px-3 py-2.5 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-foreground"
                   />
@@ -351,6 +361,7 @@ export default function SettingsPage() {
               <button
                 type="button"
                 onClick={() => setSettings({ ...settings, twoFactorEnabled: !settings.twoFactorEnabled })}
+                aria-label={`Two-Factor Authentication - currently ${settings.twoFactorEnabled ? 'on' : 'off'}`}
                 className={`relative w-12 h-6 rounded-full transition ${
                   settings.twoFactorEnabled ? 'bg-primary' : 'bg-muted'
                 }`}
@@ -387,6 +398,7 @@ export default function SettingsPage() {
                   <button
                     type="button"
                     onClick={() => setSettings({ ...settings, [item.key]: !settings[item.key as keyof typeof settings] })}
+                    aria-label={`${item.label} - currently ${settings[item.key as keyof typeof settings] ? 'on' : 'off'}`}
                     className={`relative w-12 h-6 rounded-full transition ${
                       settings[item.key as keyof typeof settings] ? 'bg-primary' : 'bg-muted'
                     }`}

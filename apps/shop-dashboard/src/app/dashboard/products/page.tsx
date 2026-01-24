@@ -170,8 +170,10 @@ export default function ProductsPage() {
           {/* Category Filter */}
           <div className="relative">
             <select
+              id="category-filter"
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
+              aria-label="Filter by category"
               className="appearance-none w-full sm:w-48 px-4 py-2.5 pr-10 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-foreground"
             >
               {mockCategories.map((cat) => (
@@ -244,6 +246,7 @@ export default function ProductsPage() {
                         onClick={() => handleEdit(product)}
                         className="p-2 hover:bg-muted rounded-lg text-muted-foreground hover:text-foreground transition"
                         title="Edit"
+                        aria-label={`Edit ${product.name}`}
                       >
                         <Edit className="w-4 h-4" />
                       </button>
@@ -252,6 +255,7 @@ export default function ProductsPage() {
                         onClick={() => setShowDeleteConfirm(product.id)}
                         className="p-2 hover:bg-destructive/10 rounded-lg text-muted-foreground hover:text-destructive transition"
                         title="Delete"
+                        aria-label={`Delete ${product.name}`}
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -297,6 +301,7 @@ export default function ProductsPage() {
                     onClick={() => handleEdit(product)}
                     className="p-2 hover:bg-muted rounded-lg text-muted-foreground hover:text-foreground transition"
                     title="Edit"
+                    aria-label={`Edit ${product.name}`}
                   >
                     <Edit className="w-4 h-4" />
                   </button>
@@ -305,6 +310,7 @@ export default function ProductsPage() {
                     onClick={() => setShowDeleteConfirm(product.id)}
                     className="p-2 hover:bg-destructive/10 rounded-lg text-muted-foreground hover:text-destructive transition"
                     title="Delete"
+                    aria-label={`Delete ${product.name}`}
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -408,6 +414,7 @@ function ProductModal({
           <button
             type="button"
             onClick={onClose}
+            aria-label="Close modal"
             className="p-2 hover:bg-muted rounded-lg text-muted-foreground hover:text-foreground transition"
           >
             <X className="w-5 h-5" />
@@ -451,8 +458,9 @@ function ProductModal({
               />
             </div>
             <div>
-              <label className="text-sm text-muted-foreground mb-1.5 block">Category *</label>
+              <label htmlFor="product-category" className="text-sm text-muted-foreground mb-1.5 block">Category *</label>
               <select
+                id="product-category"
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                 required
@@ -468,9 +476,10 @@ function ProductModal({
           {/* Prices */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-sm text-muted-foreground mb-1.5 block">Cost Price (AED) *</label>
+              <label htmlFor="cost-price" className="text-sm text-muted-foreground mb-1.5 block">Cost Price (AED) *</label>
               <input
                 type="number"
+                id="cost-price"
                 value={formData.costPrice}
                 onChange={(e) => setFormData({ ...formData, costPrice: Number(e.target.value) })}
                 required
@@ -479,9 +488,10 @@ function ProductModal({
               />
             </div>
             <div>
-              <label className="text-sm text-muted-foreground mb-1.5 block">Selling Price (AED) *</label>
+              <label htmlFor="selling-price" className="text-sm text-muted-foreground mb-1.5 block">Selling Price (AED) *</label>
               <input
                 type="number"
+                id="selling-price"
                 value={formData.sellingPrice}
                 onChange={(e) => setFormData({ ...formData, sellingPrice: Number(e.target.value) })}
                 required
@@ -505,9 +515,10 @@ function ProductModal({
           {/* Stock */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-sm text-muted-foreground mb-1.5 block">Initial Stock</label>
+              <label htmlFor="initial-stock" className="text-sm text-muted-foreground mb-1.5 block">Initial Stock</label>
               <input
                 type="number"
+                id="initial-stock"
                 value={formData.stock}
                 onChange={(e) => setFormData({ ...formData, stock: Number(e.target.value) })}
                 min="0"
@@ -515,9 +526,10 @@ function ProductModal({
               />
             </div>
             <div>
-              <label className="text-sm text-muted-foreground mb-1.5 block">Low Stock Alert</label>
+              <label htmlFor="low-stock-alert" className="text-sm text-muted-foreground mb-1.5 block">Low Stock Alert</label>
               <input
                 type="number"
+                id="low-stock-alert"
                 value={formData.lowStockAlert}
                 onChange={(e) => setFormData({ ...formData, lowStockAlert: Number(e.target.value) })}
                 min="0"

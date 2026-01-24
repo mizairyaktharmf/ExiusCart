@@ -339,6 +339,7 @@ Thank you for shopping with us! 🙏
                   <button
                     type="button"
                     onClick={() => updateQuantity(item.id, -1)}
+                    aria-label={`Decrease quantity of ${item.name}`}
                     className="w-8 h-8 flex items-center justify-center bg-muted rounded-lg text-foreground hover:bg-muted/80 transition"
                   >
                     <Minus className="w-4 h-4" />
@@ -347,6 +348,7 @@ Thank you for shopping with us! 🙏
                   <button
                     type="button"
                     onClick={() => updateQuantity(item.id, 1)}
+                    aria-label={`Increase quantity of ${item.name}`}
                     className="w-8 h-8 flex items-center justify-center bg-muted rounded-lg text-foreground hover:bg-muted/80 transition"
                   >
                     <Plus className="w-4 h-4" />
@@ -354,6 +356,7 @@ Thank you for shopping with us! 🙏
                   <button
                     type="button"
                     onClick={() => removeFromCart(item.id)}
+                    aria-label={`Remove ${item.name} from cart`}
                     className="w-8 h-8 flex items-center justify-center text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-lg transition"
                   >
                     <Trash2 className="w-4 h-4" />
@@ -372,15 +375,19 @@ Thank you for shopping with us! 🙏
                 <Percent className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input
                   type="number"
+                  id="discount-amount"
                   value={discount || ''}
                   onChange={(e) => setDiscount(Number(e.target.value))}
                   placeholder="Discount"
+                  aria-label="Discount amount"
                   className="w-full pl-9 pr-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-foreground text-sm"
                 />
               </div>
               <select
+                id="discount-type"
                 value={discountType}
                 onChange={(e) => setDiscountType(e.target.value as 'percent' | 'fixed')}
+                aria-label="Discount type"
                 className="px-3 py-2 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-foreground text-sm"
               >
                 <option value="percent">%</option>
@@ -467,6 +474,7 @@ Thank you for shopping with us! 🙏
               <button
                 type="button"
                 onClick={() => setShowCheckout(false)}
+                aria-label="Close checkout"
                 className="p-2 hover:bg-muted rounded-lg text-muted-foreground hover:text-foreground transition"
               >
                 <X className="w-5 h-5" />
@@ -483,16 +491,20 @@ Thank you for shopping with us! 🙏
                 <div className="grid grid-cols-2 gap-3">
                   <input
                     type="text"
+                    id="customer-name"
                     value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
                     placeholder="Name"
+                    aria-label="Customer name"
                     className="px-3 py-2.5 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-foreground text-sm"
                   />
                   <input
                     type="tel"
+                    id="customer-phone"
                     value={customerPhone}
                     onChange={(e) => setCustomerPhone(e.target.value)}
                     placeholder="Phone"
+                    aria-label="Customer phone"
                     className="px-3 py-2.5 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-foreground text-sm"
                   />
                 </div>
