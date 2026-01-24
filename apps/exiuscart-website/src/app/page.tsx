@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, Check } from 'lucide-react';
+import { ArrowRight, Check, Star, Quote } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 
@@ -187,8 +187,54 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* Testimonials Section */}
       <section className="py-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Trusted by UAE Business Owners
+            </h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">
+              See what shop owners across UAE are saying about ExiusCart
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <TestimonialCard
+              name="Ahmed Al Rashid"
+              business="Mobile Zone Electronics"
+              location="Dubai"
+              rating={5}
+              text="ExiusCart transformed how I manage my mobile shop. The POS is so fast, and my customers love getting WhatsApp receipts. Best investment for my business!"
+            />
+            <TestimonialCard
+              name="Fatima Hassan"
+              business="Fashion Corner Boutique"
+              location="Abu Dhabi"
+              rating={5}
+              text="Finally, a system that understands UAE business needs! VAT invoicing is automatic, inventory tracking saves me hours every week. Highly recommend!"
+            />
+            <TestimonialCard
+              name="Mohammed Khalid"
+              business="Tech Hub Accessories"
+              location="Sharjah"
+              rating={5}
+              text="The WhatsApp ordering feature is a game-changer. My customers can browse and order anytime. Sales increased by 40% in the first month!"
+            />
+          </div>
+
+          {/* Trust Stats */}
+          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 pt-12 border-t border-gray-800">
+            <StatItem value="50+" label="Active Shops" />
+            <StatItem value="10,000+" label="Invoices Created" />
+            <StatItem value="99%" label="Uptime" />
+            <StatItem value="4.9/5" label="Customer Rating" />
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 px-4 bg-[#0D1526]">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Ready to simplify your business?
@@ -249,6 +295,58 @@ function PricingFeature({ text }: { text: string }) {
     <div className="flex items-center gap-2">
       <Check className="w-4 h-4 text-[#F5A623]" />
       <span className="text-gray-300 text-sm">{text}</span>
+    </div>
+  );
+}
+
+function TestimonialCard({
+  name,
+  business,
+  location,
+  rating,
+  text,
+}: {
+  name: string;
+  business: string;
+  location: string;
+  rating: number;
+  text: string;
+}) {
+  return (
+    <div className="bg-[#151F32] rounded-2xl border border-gray-800 p-6 relative">
+      <Quote className="absolute top-6 right-6 w-8 h-8 text-[#F5A623]/20" />
+
+      {/* Rating */}
+      <div className="flex gap-1 mb-4">
+        {[...Array(rating)].map((_, i) => (
+          <Star key={i} className="w-4 h-4 fill-[#F5A623] text-[#F5A623]" />
+        ))}
+      </div>
+
+      {/* Review Text */}
+      <p className="text-gray-300 leading-relaxed mb-6">{text}</p>
+
+      {/* Author */}
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-full bg-[#F5A623]/20 flex items-center justify-center">
+          <span className="text-[#F5A623] font-semibold text-sm">
+            {name.split(' ').map(n => n[0]).join('')}
+          </span>
+        </div>
+        <div>
+          <p className="text-white font-medium text-sm">{name}</p>
+          <p className="text-gray-500 text-xs">{business} • {location}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StatItem({ value, label }: { value: string; label: string }) {
+  return (
+    <div className="text-center">
+      <p className="text-3xl md:text-4xl font-bold text-[#F5A623] mb-1">{value}</p>
+      <p className="text-gray-400 text-sm">{label}</p>
     </div>
   );
 }

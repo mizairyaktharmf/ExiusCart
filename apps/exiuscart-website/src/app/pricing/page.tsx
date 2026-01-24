@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { ArrowRight, Check, X, Printer, Users, Package, MessageCircle } from 'lucide-react';
+import { ArrowRight, Check, X, Printer, Users, Package, MessageCircle, Rocket, Gift } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 
@@ -18,7 +18,7 @@ export default function PricingPage() {
         <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4" onClick={() => setShowComingSoon(false)}>
           <div className="bg-[#151F32] rounded-2xl border border-gray-700 p-8 max-w-sm text-center" onClick={(e) => e.stopPropagation()}>
             <div className="w-16 h-16 bg-[#F5A623]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-3xl">🚀</span>
+              <Rocket className="w-8 h-8 text-[#F5A623]" />
             </div>
             <h3 className="text-xl font-bold text-white mb-2">Coming Soon!</h3>
             <p className="text-gray-400 mb-6">
@@ -179,6 +179,8 @@ export default function PricingPage() {
             />
           </div>
 
+          
+
           {/* Add-on Info */}
           <div className="max-w-2xl mx-auto mt-8 bg-[#151F32] rounded-xl p-6 border border-gray-800">
             <div className="flex items-center gap-3 mb-3">
@@ -191,6 +193,31 @@ export default function PricingPage() {
             </p>
           </div>
         </div>
+
+        {/* Free Trial Banner */}
+          <div className="max-w-4xl mx-auto mt-12 bg-gradient-to-r from-[#F5A623]/10 via-[#F5A623]/5 to-[#F5A623]/10 rounded-2xl p-8 border border-[#F5A623]/30">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 bg-[#F5A623]/20 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Gift className="w-7 h-7 text-[#F5A623]" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-1">Try Free for 7 Days</h3>
+                  <p className="text-gray-400 text-sm">
+                    Full access to all Pro features. No credit card required. Cancel anytime.
+                  </p>
+                </div>
+              </div>
+              <Link
+                href="/register"
+                className="inline-flex items-center justify-center gap-2 bg-[#F5A623] hover:bg-[#E09612] text-black font-semibold px-8 py-3 rounded-lg transition-all whitespace-nowrap"
+              >
+                Start Free Trial
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+            </div>
+          </div>
+
       </section>
 
       {/* Features Comparison */}
