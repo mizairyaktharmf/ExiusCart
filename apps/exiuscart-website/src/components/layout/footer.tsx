@@ -21,7 +21,7 @@ export function Footer() {
             {/* Social Links */}
             <div className="flex items-center gap-3">
               <a
-                href="https://wa.me/971501234567"
+                href="https://wa.me/971562393573"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 bg-[#25D366]/10 hover:bg-[#25D366]/20 rounded-lg flex items-center justify-center transition"
@@ -129,7 +129,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="https://wa.me/971501234567"
+                  href="https://wa.me/971563531043"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-500 hover:text-[#25D366] text-sm transition inline-flex items-center gap-1"
@@ -176,11 +176,11 @@ export function Footer() {
               className="flex items-center gap-2 text-gray-400 hover:text-[#25D366] text-sm transition"
             >
               <MessageCircle className="w-4 h-4 text-[#25D366]" />
-              +971 50 123 4567
+              +971 562393573
             </a>
             <span className="flex items-center gap-2 text-gray-400 text-sm">
               <MapPin className="w-4 h-4 text-[#F5A623]" />
-              Sri Lanka | Coming to Dubai
+               Dubai| Sri Lanka
             </span>
           </div>
           <Link
@@ -206,7 +206,7 @@ export function Footer() {
             >
               NexCodeNova
             </a>
-            {' '}— Tech Company from Sri Lanka
+          
           </p>
         </div>
       </div>
