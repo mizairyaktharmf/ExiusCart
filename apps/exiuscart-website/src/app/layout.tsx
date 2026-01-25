@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, Cairo } from 'next/font/google';
 import './globals.css';
 import { Providers } from '@/components/providers';
+import { WhatsAppButton } from '@/components/ui/whatsapp-button';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -28,7 +29,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${cairo.variable} font-sans`}>
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <WhatsAppButton />
+        </Providers>
       </body>
     </html>
   );
