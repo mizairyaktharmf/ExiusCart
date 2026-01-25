@@ -3,6 +3,7 @@ import { Inter, Cairo } from 'next/font/google';
 import './globals.css';
 import { Providers } from '@/components/providers';
 import { WhatsAppButton } from '@/components/ui/whatsapp-button';
+import { ExitIntentPopup } from '@/components/ui/exit-intent-popup';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -32,6 +33,7 @@ export default function RootLayout({
         <Providers>
           {children}
           <WhatsAppButton />
+          <ExitIntentPopup />
         </Providers>
       </body>
     </html>
