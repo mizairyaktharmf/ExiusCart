@@ -59,7 +59,7 @@ export default function ContactPage() {
           <div className="grid md:grid-cols-3 gap-6">
             {/* WhatsApp - Primary */}
             <a
-              href="https://wa.me/971501234567?text=Hi%2C%20I'm%20interested%20in%20ExiusCart"
+              href="https://wa.me/971562393573?text=Hi%2C%20I'm%20interested%20in%20ExiusCart"
               target="_blank"
               rel="noopener noreferrer"
               className="group bg-[#25D366]/10 border-2 border-[#25D366]/30 rounded-2xl p-6 hover:border-[#25D366] transition-all"
@@ -97,7 +97,7 @@ export default function ContactPage() {
 
             {/* Phone */}
             <a
-              href="tel:+971501234567"
+              href="tel:+971562393573"
               className="group bg-[#151F32] border border-gray-800 rounded-2xl p-6 hover:border-[#F5A623]/50 transition-all"
             >
               <div className="w-14 h-14 bg-[#F5A623]/20 rounded-xl flex items-center justify-center mb-4">
@@ -108,7 +108,7 @@ export default function ContactPage() {
                 Speak directly with our team for urgent inquiries or support.
               </p>
               <span className="inline-flex items-center gap-2 text-[#F5A623] font-medium group-hover:gap-3 transition-all">
-                +971 50 123 4567
+                +971 562393573
                 <ArrowRight className="w-4 h-4" />
               </span>
             </a>
