@@ -37,7 +37,7 @@ export default function FeaturesPage() {
                 Track payments, manage due dates, and send receipts to customers
                 instantly.
               </p>
-              <ul className="space-y-4">
+              <ul className="space-y-4 mb-8">
                 <FeatureItem text="VAT-compliant invoicing (5% UAE)" />
                 <FeatureItem text="Custom invoice templates" />
                 <FeatureItem text="Multiple payment methods tracking" />
@@ -45,6 +45,13 @@ export default function FeaturesPage() {
                 <FeatureItem text="PDF & Excel export" />
                 <FeatureItem text="Daily sales summary" />
               </ul>
+              <Link
+                href="/features/pos"
+                className="inline-flex items-center gap-2 text-[#F5A623] hover:text-[#FFB84D] font-medium transition"
+              >
+                Learn more about POS
+                <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
             <div className="bg-[#151F32] rounded-2xl border border-gray-800 p-8 h-80">
               <div className="h-full bg-[#1A2540] rounded-xl"></div>
@@ -71,7 +78,7 @@ export default function FeaturesPage() {
                 Track every product in real-time. Get alerts when stock runs low.
                 Never miss a sale because you didn&apos;t know you were out of stock.
               </p>
-              <ul className="space-y-4">
+              <ul className="space-y-4 mb-8">
                 <FeatureItem text="Real-time stock tracking" />
                 <FeatureItem text="Low stock alerts" />
                 <FeatureItem text="Stock movement history" />
@@ -79,6 +86,13 @@ export default function FeaturesPage() {
                 <FeatureItem text="Barcode support" />
                 <FeatureItem text="Bulk import/export" />
               </ul>
+              <Link
+                href="/features/inventory"
+                className="inline-flex items-center gap-2 text-[#F5A623] hover:text-[#FFB84D] font-medium transition"
+              >
+                Learn more about Inventory
+                <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
           </div>
         </div>
@@ -100,7 +114,7 @@ export default function FeaturesPage() {
                 WhatsApp. You manage everything from one dashboard — no more
                 lost messages.
               </p>
-              <ul className="space-y-4">
+              <ul className="space-y-4 mb-8">
                 <FeatureItem text="Shareable product catalog" />
                 <FeatureItem text="Order via WhatsApp" />
                 <FeatureItem text="Order status tracking" />
@@ -108,6 +122,13 @@ export default function FeaturesPage() {
                 <FeatureItem text="Order history" />
                 <FeatureItem text="Delivery management" />
               </ul>
+              <Link
+                href="/features/whatsapp-orders"
+                className="inline-flex items-center gap-2 text-[#25D366] hover:text-[#2EE67A] font-medium transition"
+              >
+                Learn more about WhatsApp Orders
+                <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
             <div className="bg-[#151F32] rounded-2xl border border-gray-800 p-8 h-80">
               <div className="h-full bg-[#1A2540] rounded-xl"></div>
@@ -162,7 +183,7 @@ export default function FeaturesPage() {
                 Get insights into your sales, profits, and trends. Make better
                 decisions with data, not guesswork.
               </p>
-              <ul className="space-y-4">
+              <ul className="space-y-4 mb-8">
                 <FeatureItem text="Sales reports" />
                 <FeatureItem text="Profit tracking" />
                 <FeatureItem text="Product performance" />
@@ -170,6 +191,13 @@ export default function FeaturesPage() {
                 <FeatureItem text="Export to PDF & Excel" />
                 <FeatureItem text="Date range filtering" />
               </ul>
+              <Link
+                href="/features/reports"
+                className="inline-flex items-center gap-2 text-[#F5A623] hover:text-[#FFB84D] font-medium transition"
+              >
+                Learn more about Reports
+                <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
             <div className="bg-[#151F32] rounded-2xl border border-gray-800 p-8 h-80">
               <div className="h-full bg-[#1A2540] rounded-xl"></div>
