@@ -128,6 +128,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/careers" className="text-gray-500 hover:text-gray-300 text-sm transition">
+                  Careers
+                </Link>
+              </li>
+              <li>
                 <a
                   href="https://wa.me/971563531043"
                   target="_blank"
