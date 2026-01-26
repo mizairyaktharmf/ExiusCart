@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowRight, Check, Star, Quote } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
@@ -51,31 +52,28 @@ export default function HomePage() {
                     <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
                     <div className="w-3 h-3 rounded-full bg-[#27CA40]"></div>
                   </div>
-                  <div className="p-6">
-                    <div className="flex gap-4 mb-4">
-                      <div className="w-1/4 h-24 bg-[#1A2540] rounded-lg"></div>
-                      <div className="w-1/4 h-24 bg-[#1A2540] rounded-lg"></div>
-                      <div className="w-1/4 h-24 bg-[#1A2540] rounded-lg"></div>
-                      <div className="w-1/4 h-24 bg-[#1A2540] rounded-lg"></div>
-                    </div>
-                    <div className="h-40 bg-[#1A2540] rounded-lg mb-4"></div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="h-20 bg-[#1A2540] rounded-lg"></div>
-                      <div className="h-20 bg-[#1A2540] rounded-lg"></div>
-                    </div>
-                  </div>
+                  <Image
+                    src="/images/dashboard-preview.png"
+                    alt="ExiusCart Dashboard Preview"
+                    width={600}
+                    height={400}
+                    className="w-full h-auto"
+                    priority
+                  />
                 </div>
 
                 {/* Mobile Preview */}
-                <div className="absolute -right-8 bottom-8 w-36 bg-[#151F32] rounded-2xl border border-gray-800 shadow-xl overflow-hidden">
+                <div className="absolute -right-4 -bottom-4 w-40 bg-[#151F32] rounded-2xl border border-gray-800 shadow-xl overflow-hidden">
                   <div className="bg-[#1A2540] px-3 py-2">
                     <div className="w-12 h-1 bg-gray-700 rounded mx-auto"></div>
                   </div>
-                  <div className="p-3 space-y-2">
-                    <div className="h-6 bg-[#1A2540] rounded"></div>
-                    <div className="h-16 bg-[#1A2540] rounded"></div>
-                    <div className="h-6 bg-[#1A2540] rounded w-2/3"></div>
-                  </div>
+                  <Image
+                    src="/images/dashboard-preview.png"
+                    alt="ExiusCart Mobile Preview"
+                    width={160}
+                    height={200}
+                    className="w-full h-auto"
+                  />
                 </div>
               </div>
             </div>
