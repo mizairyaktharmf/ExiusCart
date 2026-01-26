@@ -17,88 +17,12 @@ import {
   Coffee,
   Laptop,
   Calendar,
+  Target,
+  Lightbulb,
+  Shield,
 } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
-
-const benefits = [
-  {
-    icon: Globe,
-    title: 'Work From Anywhere',
-    description: 'We are fully remote. Work from home, a coffee shop, or the beach — wherever you do your best work.',
-  },
-  {
-    icon: Clock,
-    title: 'Flexible Hours',
-    description: 'No rigid 9-5 schedules. We care about results, not when you clock in. Work when you are most productive.',
-  },
-  {
-    icon: Laptop,
-    title: 'Latest Tools',
-    description: 'We provide the tools you need — modern tech stack, premium software, and collaboration tools.',
-  },
-  {
-    icon: Rocket,
-    title: 'Growth Opportunities',
-    description: 'As we expand to Dubai and beyond, grow with us. Early team members get exciting opportunities.',
-  },
-  {
-    icon: Heart,
-    title: 'Work-Life Balance',
-    description: 'Your life matters. Generous time off, no micromanagement, and a culture that respects boundaries.',
-  },
-  {
-    icon: Users,
-    title: 'Great Team',
-    description: 'Work with passionate, skilled people who love what they do. We collaborate, not compete.',
-  },
-];
-
-const departments = [
-  {
-    icon: Code,
-    name: 'Engineering',
-    description: 'Build scalable products with modern technologies like React, Next.js, Node.js, and TypeScript.',
-  },
-  {
-    icon: Palette,
-    name: 'Design',
-    description: 'Create beautiful, intuitive experiences that delight users and solve real problems.',
-  },
-  {
-    icon: Megaphone,
-    name: 'Marketing',
-    description: 'Tell our story, reach new audiences, and help UAE businesses discover ExiusCart.',
-  },
-  {
-    icon: Headphones,
-    name: 'Customer Success',
-    description: 'Help our customers succeed. Be the friendly voice that guides them through their journey.',
-  },
-];
-
-const values = [
-  {
-    emoji: '🎯',
-    title: 'Customer First',
-    description: 'Every decision starts with "How does this help our customers?"',
-  },
-  {
-    emoji: '🚀',
-    title: 'Move Fast',
-    description: 'We ship quickly, learn from feedback, and iterate. Done is better than perfect.',
-  },
-  {
-    emoji: '💡',
-    title: 'Think Big',
-    description: 'We are building something that will transform how businesses operate in the UAE.',
-  },
-  {
-    emoji: '🤝',
-    title: 'Trust & Transparency',
-    description: 'We share openly, give honest feedback, and trust each other to do great work.',
-  },
-];
 
 export default function CareersPage() {
   return (
@@ -195,16 +119,34 @@ export default function CareersPage() {
               </h2>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {values.map((value, i) => (
-                <div
-                  key={i}
-                  className="bg-[#151F32] rounded-xl border border-gray-800 p-6 text-center hover:border-[#F5A623]/30 transition"
-                >
-                  <span className="text-4xl mb-4 block">{value.emoji}</span>
-                  <h3 className="text-white font-semibold mb-2">{value.title}</h3>
-                  <p className="text-gray-400 text-sm">{value.description}</p>
+              <div className="bg-[#151F32] rounded-xl border border-gray-800 p-6 text-center hover:border-[#F5A623]/30 transition">
+                <div className="w-12 h-12 bg-[#F5A623]/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Target className="w-6 h-6 text-[#F5A623]" />
                 </div>
-              ))}
+                <h3 className="text-white font-semibold mb-2">Customer First</h3>
+                <p className="text-gray-400 text-sm">Every decision starts with &quot;How does this help our customers?&quot;</p>
+              </div>
+              <div className="bg-[#151F32] rounded-xl border border-gray-800 p-6 text-center hover:border-[#F5A623]/30 transition">
+                <div className="w-12 h-12 bg-[#F5A623]/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Rocket className="w-6 h-6 text-[#F5A623]" />
+                </div>
+                <h3 className="text-white font-semibold mb-2">Move Fast</h3>
+                <p className="text-gray-400 text-sm">We ship quickly, learn from feedback, and iterate. Done is better than perfect.</p>
+              </div>
+              <div className="bg-[#151F32] rounded-xl border border-gray-800 p-6 text-center hover:border-[#F5A623]/30 transition">
+                <div className="w-12 h-12 bg-[#F5A623]/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Lightbulb className="w-6 h-6 text-[#F5A623]" />
+                </div>
+                <h3 className="text-white font-semibold mb-2">Think Big</h3>
+                <p className="text-gray-400 text-sm">We are building something that will transform how businesses operate in the UAE.</p>
+              </div>
+              <div className="bg-[#151F32] rounded-xl border border-gray-800 p-6 text-center hover:border-[#F5A623]/30 transition">
+                <div className="w-12 h-12 bg-[#F5A623]/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Shield className="w-6 h-6 text-[#F5A623]" />
+                </div>
+                <h3 className="text-white font-semibold mb-2">Trust & Transparency</h3>
+                <p className="text-gray-400 text-sm">We share openly, give honest feedback, and trust each other to do great work.</p>
+              </div>
             </div>
           </section>
 
@@ -217,18 +159,48 @@ export default function CareersPage() {
               </h2>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {benefits.map((benefit, i) => (
-                <div
-                  key={i}
-                  className="bg-[#151F32] rounded-xl border border-gray-800 p-6 hover:border-[#F5A623]/30 transition"
-                >
-                  <div className="w-12 h-12 bg-[#F5A623]/10 rounded-xl flex items-center justify-center mb-4">
-                    <benefit.icon className="w-6 h-6 text-[#F5A623]" />
-                  </div>
-                  <h3 className="text-white font-semibold mb-2">{benefit.title}</h3>
-                  <p className="text-gray-400 text-sm">{benefit.description}</p>
+              <div className="bg-[#151F32] rounded-xl border border-gray-800 p-6 hover:border-[#F5A623]/30 transition">
+                <div className="w-12 h-12 bg-[#F5A623]/10 rounded-xl flex items-center justify-center mb-4">
+                  <Globe className="w-6 h-6 text-[#F5A623]" />
                 </div>
-              ))}
+                <h3 className="text-white font-semibold mb-2">Work From Anywhere</h3>
+                <p className="text-gray-400 text-sm">We are fully remote. Work from home, a coffee shop, or the beach — wherever you do your best work.</p>
+              </div>
+              <div className="bg-[#151F32] rounded-xl border border-gray-800 p-6 hover:border-[#F5A623]/30 transition">
+                <div className="w-12 h-12 bg-[#F5A623]/10 rounded-xl flex items-center justify-center mb-4">
+                  <Clock className="w-6 h-6 text-[#F5A623]" />
+                </div>
+                <h3 className="text-white font-semibold mb-2">Flexible Hours</h3>
+                <p className="text-gray-400 text-sm">No rigid 9-5 schedules. We care about results, not when you clock in. Work when you are most productive.</p>
+              </div>
+              <div className="bg-[#151F32] rounded-xl border border-gray-800 p-6 hover:border-[#F5A623]/30 transition">
+                <div className="w-12 h-12 bg-[#F5A623]/10 rounded-xl flex items-center justify-center mb-4">
+                  <Laptop className="w-6 h-6 text-[#F5A623]" />
+                </div>
+                <h3 className="text-white font-semibold mb-2">Latest Tools</h3>
+                <p className="text-gray-400 text-sm">We provide the tools you need — modern tech stack, premium software, and collaboration tools.</p>
+              </div>
+              <div className="bg-[#151F32] rounded-xl border border-gray-800 p-6 hover:border-[#F5A623]/30 transition">
+                <div className="w-12 h-12 bg-[#F5A623]/10 rounded-xl flex items-center justify-center mb-4">
+                  <Rocket className="w-6 h-6 text-[#F5A623]" />
+                </div>
+                <h3 className="text-white font-semibold mb-2">Growth Opportunities</h3>
+                <p className="text-gray-400 text-sm">As we expand to Dubai and beyond, grow with us. Early team members get exciting opportunities.</p>
+              </div>
+              <div className="bg-[#151F32] rounded-xl border border-gray-800 p-6 hover:border-[#F5A623]/30 transition">
+                <div className="w-12 h-12 bg-[#F5A623]/10 rounded-xl flex items-center justify-center mb-4">
+                  <Heart className="w-6 h-6 text-[#F5A623]" />
+                </div>
+                <h3 className="text-white font-semibold mb-2">Work-Life Balance</h3>
+                <p className="text-gray-400 text-sm">Your life matters. Generous time off, no micromanagement, and a culture that respects boundaries.</p>
+              </div>
+              <div className="bg-[#151F32] rounded-xl border border-gray-800 p-6 hover:border-[#F5A623]/30 transition">
+                <div className="w-12 h-12 bg-[#F5A623]/10 rounded-xl flex items-center justify-center mb-4">
+                  <Users className="w-6 h-6 text-[#F5A623]" />
+                </div>
+                <h3 className="text-white font-semibold mb-2">Great Team</h3>
+                <p className="text-gray-400 text-sm">Work with passionate, skilled people who love what they do. We collaborate, not compete.</p>
+              </div>
             </div>
           </section>
 
@@ -241,16 +213,26 @@ export default function CareersPage() {
               </h2>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {departments.map((dept, i) => (
-                <div
-                  key={i}
-                  className="bg-[#151F32] rounded-xl border border-gray-800 p-6 hover:border-[#F5A623]/30 transition"
-                >
-                  <dept.icon className="w-8 h-8 text-[#F5A623] mb-4" />
-                  <h3 className="text-white font-semibold mb-2">{dept.name}</h3>
-                  <p className="text-gray-400 text-sm">{dept.description}</p>
-                </div>
-              ))}
+              <div className="bg-[#151F32] rounded-xl border border-gray-800 p-6 hover:border-[#F5A623]/30 transition">
+                <Code className="w-8 h-8 text-[#F5A623] mb-4" />
+                <h3 className="text-white font-semibold mb-2">Engineering</h3>
+                <p className="text-gray-400 text-sm">Build scalable products with modern technologies like React, Next.js, Node.js, and TypeScript.</p>
+              </div>
+              <div className="bg-[#151F32] rounded-xl border border-gray-800 p-6 hover:border-[#F5A623]/30 transition">
+                <Palette className="w-8 h-8 text-[#F5A623] mb-4" />
+                <h3 className="text-white font-semibold mb-2">Design</h3>
+                <p className="text-gray-400 text-sm">Create beautiful, intuitive experiences that delight users and solve real problems.</p>
+              </div>
+              <div className="bg-[#151F32] rounded-xl border border-gray-800 p-6 hover:border-[#F5A623]/30 transition">
+                <Megaphone className="w-8 h-8 text-[#F5A623] mb-4" />
+                <h3 className="text-white font-semibold mb-2">Marketing</h3>
+                <p className="text-gray-400 text-sm">Tell our story, reach new audiences, and help UAE businesses discover ExiusCart.</p>
+              </div>
+              <div className="bg-[#151F32] rounded-xl border border-gray-800 p-6 hover:border-[#F5A623]/30 transition">
+                <Headphones className="w-8 h-8 text-[#F5A623] mb-4" />
+                <h3 className="text-white font-semibold mb-2">Customer Success</h3>
+                <p className="text-gray-400 text-sm">Help our customers succeed. Be the friendly voice that guides them through their journey.</p>
+              </div>
             </div>
           </section>
 
