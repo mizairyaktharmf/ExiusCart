@@ -68,7 +68,7 @@ export default function HomePage() {
                     <div className="w-12 h-1 bg-gray-700 rounded mx-auto"></div>
                   </div>
                   <Image
-                    src="/images/dashboard-preview.png"
+                    src="/images/dashboard-preview-mobile.png"
                     alt="ExiusCart Mobile Preview"
                     width={160}
                     height={200}
