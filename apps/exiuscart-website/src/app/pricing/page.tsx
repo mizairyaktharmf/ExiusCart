@@ -5,9 +5,37 @@ import { useState } from 'react';
 import { ArrowRight, Check, X, Printer, Users, Package, MessageCircle, Rocket, Gift } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
+import { useCurrency } from '@/context/currency-context';
+import { pricing, monthlyPricing, formatPrice, getSavings } from '@/config/pricing';
 
 export default function PricingPage() {
+  const [billingPeriod, setBillingPeriod] = useState<'onetime' | 'monthly'>('onetime');
+  const { currency, currencyConfig, isLoading } = useCurrency();
+
+  const showMonthly = currencyConfig.showMonthly;
+  const showProPlus = currencyConfig.showProPlus;
+  const hasMonthlyPricing = monthlyPricing[currency] !== null;
+
   const [showComingSoon, setShowComingSoon] = useState(false);
+
+  const handleMonthlyClick = () => {
+    if (!hasMonthlyPricing) {
+      setShowComingSoon(true);
+    } else {
+      setBillingPeriod('monthly');
+    }
+  };
+
+  // Get prices for current currency
+  const prices = pricing[currency];
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[#0B1121] flex items-center justify-center">
+        <div className="animate-pulse text-gray-400">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#0B1121]">
@@ -22,7 +50,7 @@ export default function PricingPage() {
             </div>
             <h3 className="text-xl font-bold text-white mb-2">Coming Soon!</h3>
             <p className="text-gray-400 mb-6">
-              Monthly subscription plans are coming soon. For now, enjoy our one-time payment options with lifetime access!
+              Monthly subscription plans are coming soon for {currencyConfig.country}. For now, enjoy our one-time payment options with lifetime access!
             </p>
             <button
               onClick={() => setShowComingSoon(false)}
@@ -41,8 +69,13 @@ export default function PricingPage() {
             Simple, transparent pricing
           </h1>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            Choose one-time payment for lifetime access or monthly subscription.
-            No hidden fees, no surprises.
+            {showMonthly
+              ? 'Choose one-time payment for lifetime access or monthly subscription. No hidden fees, no surprises.'
+              : 'One-time payment for lifetime access. No hidden fees, no surprises.'}
+          </p>
+          {/* Show current region */}
+          <p className="mt-4 text-sm text-gray-500">
+            Showing prices for {currencyConfig.flag} {currencyConfig.country} ({currency})
           </p>
         </div>
       </section>
@@ -53,24 +86,37 @@ export default function PricingPage() {
           {/* Toggle - One Time / Monthly */}
           <div className="flex justify-center mb-12">
             <div className="inline-flex bg-[#151F32] rounded-lg p-1">
-              <button className="px-6 py-2 rounded-md bg-[#F5A623] text-black font-medium text-sm">
+              <button
+                onClick={() => setBillingPeriod('onetime')}
+                className={`px-6 py-2 rounded-md font-medium text-sm transition-all ${
+                  billingPeriod === 'onetime'
+                    ? 'bg-[#F5A623] text-black'
+                    : 'text-gray-400 hover:text-gray-300'
+                }`}
+              >
                 One-time
               </button>
               <button
-                onClick={() => setShowComingSoon(true)}
-                className="px-6 py-2 rounded-md text-gray-400 font-medium text-sm hover:text-gray-300 transition-colors"
+                onClick={handleMonthlyClick}
+                className={`px-6 py-2 rounded-md font-medium text-sm transition-all ${
+                  billingPeriod === 'monthly' && hasMonthlyPricing
+                    ? 'bg-[#F5A623] text-black'
+                    : 'text-gray-400 hover:text-gray-300'
+                }`}
               >
-                Monthly
+                Monthly {!hasMonthlyPricing && <span className="text-xs ml-1">(Soon)</span>}
               </button>
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className={`grid gap-6 ${showProPlus ? 'md:grid-cols-2 lg:grid-cols-4' : 'md:grid-cols-3 max-w-5xl mx-auto'}`}>
             {/* Starter */}
             <PricingCard
               name="Starter"
-              price="499"
-              originalPrice="599"
+              price={prices.starter.oneTime}
+              originalPrice={prices.starter.originalOneTime}
+              currency={currency}
+              currencySymbol={currencyConfig.symbol}
               period="one-time"
               description="Perfect for small shops getting started"
               highlights={[
@@ -90,15 +136,17 @@ export default function PricingPage() {
               ]}
               addon={{
                 text: 'Need more staff?',
-                price: '+99 AED/staff',
+                price: `+${formatPrice(99, currency)}/staff`,
               }}
             />
 
             {/* Business */}
             <PricingCard
               name="Business"
-              price="699"
-              originalPrice="799"
+              price={prices.business.oneTime}
+              originalPrice={prices.business.originalOneTime}
+              currency={currency}
+              currencySymbol={currencyConfig.symbol}
               period="one-time"
               description="For growing shops needing more capacity"
               highlights={[
@@ -107,7 +155,7 @@ export default function PricingPage() {
               ]}
               features={[
                 { text: 'Everything in Starter', included: true },
-                { text: 'Product Management (50 max)', included: true },  
+                { text: 'Product Management (50 max)', included: true },
                 { text: 'Advanced Reports', included: true },
                 { text: 'Customer Insights', included: true },
                 { text: 'WhatsApp Orders', included: false },
@@ -117,15 +165,17 @@ export default function PricingPage() {
               ]}
               addon={{
                 text: 'Need more staff?',
-                price: '+99 AED/staff',
+                price: `+${formatPrice(99, currency)}/staff`,
               }}
             />
 
             {/* Pro - Popular */}
             <PricingCard
               name="Pro"
-              price="999"
-              originalPrice="1,199"
+              price={prices.pro.oneTime}
+              originalPrice={prices.pro.originalOneTime}
+              currency={currency}
+              currencySymbol={currencyConfig.symbol}
               period="one-time"
               description="Complete solution with WhatsApp & Inventory"
               popular
@@ -147,39 +197,41 @@ export default function PricingPage() {
               ]}
               addon={{
                 text: 'Need more staff?',
-                price: '+99 AED/staff',
+                price: `+${formatPrice(99, currency)}/staff`,
               }}
             />
 
-            {/* Pro+ with Thermal Printer */}
-            <PricingCard
-              name="Pro+"
-              price="1,299"
-              originalPrice="1,499"
-              period="one-time"
-              description="Everything + Free Thermal Printer"
-              badge="Best Value"
-              highlights={[
-                { icon: Printer, text: 'Free Thermal Printer' },
-                { icon: Package, text: 'Unlimited Products' },
-                { icon: Users, text: 'Multiple Staff' },
-                { icon: MessageCircle, text: 'WhatsApp Orders' },
-              ]}
-              features={[
-                { text: 'Everything in Pro', included: true },
-                { text: 'Free Thermal Receipt Printer', included: true },
-                { text: 'Automatic Receipt Printing', included: true },
-                { text: 'Custom Receipt Branding', included: true },
-                { text: 'Printer Setup Support', included: true },
-                { text: 'Unlimited Staff Accounts', included: true },
-                { text: 'On-site Setup Assistance', included: true },
-                { text: 'Lifetime Priority Support', included: true },
-              ]}
-              isProPlus
-            />
+            {/* Pro+ with Thermal Printer - Only show for AED/SAR */}
+            {showProPlus && (
+              <PricingCard
+                name="Pro+"
+                price={prices.proplus.oneTime}
+                originalPrice={prices.proplus.originalOneTime}
+                currency={currency}
+                currencySymbol={currencyConfig.symbol}
+                period="one-time"
+                description="Everything + Free Thermal Printer"
+                badge="Best Value"
+                highlights={[
+                  { icon: Printer, text: 'Free Thermal Printer' },
+                  { icon: Package, text: 'Unlimited Products' },
+                  { icon: Users, text: 'Multiple Staff' },
+                  { icon: MessageCircle, text: 'WhatsApp Orders' },
+                ]}
+                features={[
+                  { text: 'Everything in Pro', included: true },
+                  { text: 'Free Thermal Receipt Printer', included: true },
+                  { text: 'Automatic Receipt Printing', included: true },
+                  { text: 'Custom Receipt Branding', included: true },
+                  { text: 'Printer Setup Support', included: true },
+                  { text: 'Unlimited Staff Accounts', included: true },
+                  { text: 'On-site Setup Assistance', included: true },
+                  { text: 'Lifetime Priority Support', included: true },
+                ]}
+                isProPlus
+              />
+            )}
           </div>
-
-          
 
           {/* Add-on Info */}
           <div className="max-w-2xl mx-auto mt-8 bg-[#151F32] rounded-xl p-6 border border-gray-800">
@@ -188,36 +240,35 @@ export default function PricingPage() {
               <h3 className="text-white font-semibold">Need Additional Staff?</h3>
             </div>
             <p className="text-gray-400 text-sm">
-              Add extra staff accounts to any plan for just <span className="text-[#F5A623] font-semibold">+99 AED</span> per staff member (one-time).
+              Add extra staff accounts to any plan for just <span className="text-[#F5A623] font-semibold">{formatPrice(99, currency)}</span> per staff member (one-time).
               Perfect for expanding teams without upgrading your entire plan.
             </p>
           </div>
         </div>
 
         {/* Free Trial Banner */}
-          <div className="max-w-4xl mx-auto mt-12 bg-gradient-to-r from-[#F5A623]/10 via-[#F5A623]/5 to-[#F5A623]/10 rounded-2xl p-8 border border-[#F5A623]/30">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-[#F5A623]/20 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Gift className="w-7 h-7 text-[#F5A623]" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white mb-1">Try Free for 7 Days</h3>
-                  <p className="text-gray-400 text-sm">
-                    Full access to all Pro features. No credit card required. Cancel anytime.
-                  </p>
-                </div>
+        <div className="max-w-4xl mx-auto mt-12 bg-gradient-to-r from-[#F5A623]/10 via-[#F5A623]/5 to-[#F5A623]/10 rounded-2xl p-8 border border-[#F5A623]/30">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 bg-[#F5A623]/20 rounded-full flex items-center justify-center flex-shrink-0">
+                <Gift className="w-7 h-7 text-[#F5A623]" />
               </div>
-              <Link
-                href="/register"
-                className="inline-flex items-center justify-center gap-2 bg-[#F5A623] hover:bg-[#E09612] text-black font-semibold px-8 py-3 rounded-lg transition-all whitespace-nowrap"
-              >
-                Start Free Trial
-                <ArrowRight className="w-5 h-5" />
-              </Link>
+              <div>
+                <h3 className="text-xl font-bold text-white mb-1">Try Free for 7 Days</h3>
+                <p className="text-gray-400 text-sm">
+                  Full access to all Pro features. No credit card required. Cancel anytime.
+                </p>
+              </div>
             </div>
+            <Link
+              href="/register"
+              className="inline-flex items-center justify-center gap-2 bg-[#F5A623] hover:bg-[#E09612] text-black font-semibold px-8 py-3 rounded-lg transition-all whitespace-nowrap"
+            >
+              Start Free Trial
+              <ArrowRight className="w-5 h-5" />
+            </Link>
           </div>
-
+        </div>
       </section>
 
       {/* Features Comparison */}
@@ -232,31 +283,33 @@ export default function PricingPage() {
               <thead>
                 <tr className="border-b border-gray-800">
                   <th className="text-left py-4 text-gray-400 font-medium">Feature</th>
-                  <th className="text-center py-4 text-gray-400 font-medium">Starter<br /><span className="text-xs">599 AED</span></th>
-                  <th className="text-center py-4 text-gray-400 font-medium">Business<br /><span className="text-xs">799 AED</span></th>
-                  <th className="text-center py-4 text-gray-400 font-medium">Pro<br /><span className="text-xs">1,299 AED</span></th>
-                  <th className="text-center py-4 text-gray-400 font-medium">Pro+<br /><span className="text-xs">1,499 AED</span></th>
+                  <th className="text-center py-4 text-gray-400 font-medium">Starter<br /><span className="text-xs">{formatPrice(prices.starter.oneTime, currency)}</span></th>
+                  <th className="text-center py-4 text-gray-400 font-medium">Business<br /><span className="text-xs">{formatPrice(prices.business.oneTime, currency)}</span></th>
+                  <th className="text-center py-4 text-gray-400 font-medium">Pro<br /><span className="text-xs">{formatPrice(prices.pro.oneTime, currency)}</span></th>
+                  {showProPlus && (
+                    <th className="text-center py-4 text-gray-400 font-medium">Pro+<br /><span className="text-xs">{formatPrice(prices.proplus.oneTime, currency)}</span></th>
+                  )}
                 </tr>
               </thead>
               <tbody className="text-sm">
-                <CompareRow feature="Product Listing" starter="25" business="Unlimited" pro="Unlimited" proPlus="Unlimited" />
-                <CompareRow feature="Staff Accounts" starter="1" business="2" pro="Multiple" proPlus="Unlimited" />
-                <CompareRow feature="Additional Staff" starter="+129 AED" business="+129 AED" pro="+129 AED" proPlus="Included" />
-                <CompareRow feature="POS & Invoicing" starter business pro proPlus />
-                <CompareRow feature="VAT Calculation" starter business pro proPlus />
-                <CompareRow feature="Customer Database" starter business pro proPlus />
-                <CompareRow feature="Sales Reports" starter business pro proPlus />
-                <CompareRow feature="PDF & Excel Export" starter business pro proPlus />
-                <CompareRow feature="WhatsApp Order Link" pro proPlus />
-                <CompareRow feature="Order Dashboard" pro proPlus />
-                <CompareRow feature="Customer Notifications" pro proPlus />
-                <CompareRow feature="Inventory Management" pro proPlus />
-                <CompareRow feature="Low Stock Alerts" pro proPlus />
-                <CompareRow feature="Stock Movement History" pro proPlus />
-                <CompareRow feature="Thermal Printer (Free)" proPlus />
-                <CompareRow feature="Receipt Printing" proPlus />
-                <CompareRow feature="Priority Support" pro proPlus />
-                <CompareRow feature="Dedicated Account Manager" proPlus />
+                <CompareRow feature="Product Listing" starter="25" business="50" pro="100" proPlus={showProPlus ? "Unlimited" : undefined} showProPlus={showProPlus} />
+                <CompareRow feature="Staff Accounts" starter="1" business="1" pro="2" proPlus={showProPlus ? "Unlimited" : undefined} showProPlus={showProPlus} />
+                <CompareRow feature="POS & Invoicing" starter business pro proPlus={showProPlus} showProPlus={showProPlus} />
+                <CompareRow feature="VAT Calculation" starter business pro proPlus={showProPlus} showProPlus={showProPlus} />
+                <CompareRow feature="Customer Database" starter business pro proPlus={showProPlus} showProPlus={showProPlus} />
+                <CompareRow feature="Sales Reports" starter business pro proPlus={showProPlus} showProPlus={showProPlus} />
+                <CompareRow feature="PDF & Excel Export" starter business pro proPlus={showProPlus} showProPlus={showProPlus} />
+                <CompareRow feature="WhatsApp Order Link" pro proPlus={showProPlus} showProPlus={showProPlus} />
+                <CompareRow feature="Order Dashboard" pro proPlus={showProPlus} showProPlus={showProPlus} />
+                <CompareRow feature="Inventory Management" pro proPlus={showProPlus} showProPlus={showProPlus} />
+                <CompareRow feature="Low Stock Alerts" pro proPlus={showProPlus} showProPlus={showProPlus} />
+                {showProPlus && (
+                  <>
+                    <CompareRow feature="Thermal Printer (Free)" proPlus showProPlus={showProPlus} />
+                    <CompareRow feature="Receipt Printing" proPlus showProPlus={showProPlus} />
+                  </>
+                )}
+                <CompareRow feature="Priority Support" pro proPlus={showProPlus} showProPlus={showProPlus} />
               </tbody>
             </table>
           </div>
@@ -272,28 +325,30 @@ export default function PricingPage() {
 
           <div className="space-y-6">
             <FAQ
-              question="What's the difference between one-time and monthly?"
-              answer="One-time payment gives you lifetime access to the plan features. Monthly subscription is pay-as-you-go. Both include free updates and support."
+              question="What's included in the one-time payment?"
+              answer="One-time payment gives you lifetime access to all features in your chosen plan, plus free updates and support. No recurring fees."
             />
             <FAQ
               question="Can I add more staff to my plan?"
-              answer="Yes! You can add additional staff accounts to any plan (except Pro+ which has unlimited) for just 129 AED per staff member (one-time payment)."
+              answer={`Yes! You can add additional staff accounts to any plan for just ${formatPrice(99, currency)} per staff member (one-time payment).`}
             />
             <FAQ
               question="Can I upgrade my plan later?"
               answer="Yes, you can upgrade anytime. You'll only pay the difference between your current plan and the new one."
             />
-            <FAQ
-              question="What does the free thermal printer include?"
-              answer="The Pro+ plan includes a high-quality 80mm thermal receipt printer, delivery to your location in UAE, and free setup assistance. Perfect for printing customer receipts instantly."
-            />
+            {showProPlus && (
+              <FAQ
+                question="What does the free thermal printer include?"
+                answer="The Pro+ plan includes a high-quality 80mm thermal receipt printer, delivery to your location, and free setup assistance. Perfect for printing customer receipts instantly."
+              />
+            )}
             <FAQ
               question="Is there a free trial?"
               answer="Yes, you get 7 days free trial with full access to all Pro features. No credit card required."
             />
             <FAQ
               question="What payment methods do you accept?"
-              answer="We accept bank transfer. Card payments coming soon."
+              answer="We accept bank transfer and various local payment methods. Card payments coming soon."
             />
             <FAQ
               question="Do you offer refunds?"
@@ -331,6 +386,8 @@ function PricingCard({
   name,
   price,
   originalPrice,
+  currency,
+  currencySymbol,
   period,
   description,
   features,
@@ -341,8 +398,10 @@ function PricingCard({
   isProPlus,
 }: {
   name: string;
-  price: string;
-  originalPrice?: string;
+  price: number;
+  originalPrice?: number;
+  currency: string;
+  currencySymbol: string;
   period: string;
   description: string;
   features: { text: string; included: boolean }[];
@@ -352,6 +411,10 @@ function PricingCard({
   addon?: { text: string; price: string };
   isProPlus?: boolean;
 }) {
+  const savings = originalPrice ? originalPrice - price : 0;
+  const formattedPrice = price.toLocaleString();
+  const formattedOriginal = originalPrice?.toLocaleString();
+
   return (
     <div
       className={`relative bg-[#151F32] rounded-2xl border p-6 flex flex-col ${
@@ -373,15 +436,15 @@ function PricingCard({
       <p className="text-gray-500 text-sm mb-4">{description}</p>
 
       <div className="mb-4">
-        {originalPrice && (
+        {formattedOriginal && savings > 0 && (
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-lg text-gray-500 line-through">{originalPrice} AED</span>
-            <span className="text-xs font-semibold bg-red-500/20 text-red-400 px-2 py-0.5 rounded">SAVE {(parseFloat(originalPrice.replace(',', '')) - parseFloat(price.replace(',', ''))).toFixed(1)} AED</span>
+            <span className="text-lg text-gray-500 line-through">{formattedOriginal} {currency}</span>
+            <span className="text-xs font-semibold bg-red-500/20 text-red-400 px-2 py-0.5 rounded">SAVE {savings.toLocaleString()} {currency}</span>
           </div>
         )}
         <div className="flex items-baseline gap-1">
-          <span className="text-3xl font-bold text-white">{price}</span>
-          <span className="text-gray-500">AED</span>
+          <span className="text-3xl font-bold text-white">{formattedPrice}</span>
+          <span className="text-gray-500">{currency}</span>
           <span className="text-gray-500 text-sm">/ {period}</span>
         </div>
       </div>
@@ -448,12 +511,14 @@ function CompareRow({
   business,
   pro,
   proPlus,
+  showProPlus,
 }: {
   feature: string;
   starter?: boolean | string;
   business?: boolean | string;
   pro?: boolean | string;
   proPlus?: boolean | string;
+  showProPlus: boolean;
 }) {
   const renderCell = (value?: boolean | string) => {
     if (typeof value === 'string') {
@@ -471,7 +536,7 @@ function CompareRow({
       <td className="py-3 text-center">{renderCell(starter)}</td>
       <td className="py-3 text-center">{renderCell(business)}</td>
       <td className="py-3 text-center">{renderCell(pro)}</td>
-      <td className="py-3 text-center">{renderCell(proPlus)}</td>
+      {showProPlus && <td className="py-3 text-center">{renderCell(proPlus)}</td>}
     </tr>
   );
 }

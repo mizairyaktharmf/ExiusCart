@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { ArrowRight, Check, Star, Quote } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
+import { PricingPreview } from '@/components/ui/pricing-preview';
 
 export default function HomePage() {
   return (
@@ -158,29 +159,7 @@ export default function HomePage() {
             </div>
 
             {/* Pricing Preview */}
-            <div className="bg-[#151F32] rounded-2xl border border-gray-800 p-8">
-              <p className="text-gray-400 text-sm mb-2">Starting from</p>
-              <div className="flex items-baseline gap-2 mb-2">
-                <span className="text-5xl font-bold text-white">699</span>
-                <span className="text-gray-400">AED</span>
-              </div>
-              <p className="text-gray-500 text-sm mb-8">One-time payment, lifetime access</p>
-
-              <div className="space-y-3 mb-8">
-                <PricingFeature text="POS & Invoicing" />
-                <PricingFeature text="Product Management" />
-                <PricingFeature text="Customer Database" />
-                <PricingFeature text="Sales Reports" />
-                <PricingFeature text="PDF & Excel Export" />
-              </div>
-
-              <Link
-                href="/pricing"
-                className="block text-center bg-[#F5A623] hover:bg-[#E09612] text-black font-semibold py-4 rounded-lg transition-all"
-              >
-                View All Plans
-              </Link>
-            </div>
+            <PricingPreview />
           </div>
         </div>
       </section>
@@ -284,15 +263,6 @@ function BenefitRow({ text }: { text: string }) {
     <div className="flex items-center gap-3">
       <Check className="w-5 h-5 text-[#F5A623] flex-shrink-0" />
       <span className="text-gray-300">{text}</span>
-    </div>
-  );
-}
-
-function PricingFeature({ text }: { text: string }) {
-  return (
-    <div className="flex items-center gap-2">
-      <Check className="w-4 h-4 text-[#F5A623]" />
-      <span className="text-gray-300 text-sm">{text}</span>
     </div>
   );
 }
