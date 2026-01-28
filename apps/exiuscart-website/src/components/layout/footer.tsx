@@ -115,6 +115,11 @@ export function Footer() {
                   Reports
                 </Link>
               </li>
+              <li>
+                <Link href="/integrations" className="text-gray-500 hover:text-gray-300 text-sm transition">
+                  Integrations
+                </Link>
+              </li>
             </ul>
           </div>
 
