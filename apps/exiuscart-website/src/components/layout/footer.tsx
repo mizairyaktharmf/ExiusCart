@@ -170,6 +170,11 @@ export function Footer() {
                   Terms of Service
                 </Link>
               </li>
+              <li>
+                <Link href="/refund-policy" className="text-gray-500 hover:text-gray-300 text-sm transition">
+                  Refund Policy
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
