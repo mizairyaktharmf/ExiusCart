@@ -79,6 +79,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/compare" className="text-gray-500 hover:text-gray-300 text-sm transition">
+                  Compare
+                </Link>
+              </li>
+              <li>
                 <Link href="/faq" className="text-gray-500 hover:text-gray-300 text-sm transition">
                   FAQ
                 </Link>
