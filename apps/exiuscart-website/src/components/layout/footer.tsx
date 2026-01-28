@@ -143,6 +143,21 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/changelog" className="text-gray-500 hover:text-gray-300 text-sm transition">
+                  Changelog
+                </Link>
+              </li>
+              <li>
+                <Link href="/referral" className="text-gray-500 hover:text-gray-300 text-sm transition">
+                  Referral Program
+                </Link>
+              </li>
+              <li>
+                <Link href="/affiliate" className="text-gray-500 hover:text-gray-300 text-sm transition">
+                  Affiliate Program
+                </Link>
+              </li>
+              <li>
                 <a
                   href="https://wa.me/971563531043"
                   target="_blank"
