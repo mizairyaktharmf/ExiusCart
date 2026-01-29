@@ -159,15 +159,18 @@ export default function ReportsFeaturePage() {
                     <span className="text-white text-sm font-medium">24,580 AED</span>
                   </div>
                   <div className="flex items-end gap-2 h-32">
-                    {[45, 65, 40, 80, 55, 90, 70].map((height, i) => (
+                    {[
+                      { height: 'h-[45%]', day: 'S' },
+                      { height: 'h-[65%]', day: 'M' },
+                      { height: 'h-[40%]', day: 'T' },
+                      { height: 'h-[80%]', day: 'W' },
+                      { height: 'h-[55%]', day: 'T' },
+                      { height: 'h-[90%]', day: 'F' },
+                      { height: 'h-[70%]', day: 'S' },
+                    ].map((bar, i) => (
                       <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                        <div
-                          className="w-full bg-[#F5A623] rounded-t transition-all"
-                          style={{ height: `${height}%` }}
-                        ></div>
-                        <span className="text-gray-500 text-xs">
-                          {['S', 'M', 'T', 'W', 'T', 'F', 'S'][i]}
-                        </span>
+                        <div className={`w-full bg-[#F5A623] rounded-t transition-all ${bar.height}`}></div>
+                        <span className="text-gray-500 text-xs">{bar.day}</span>
                       </div>
                     ))}
                   </div>

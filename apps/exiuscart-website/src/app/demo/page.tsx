@@ -167,9 +167,9 @@ export default function DemoPage() {
                   <div className="col-span-2 bg-[#1A2540] rounded-xl p-4 h-48">
                     <p className="text-gray-400 text-sm mb-4">Sales Overview</p>
                     <div className="flex items-end gap-2 h-32">
-                      {[40, 65, 45, 80, 55, 90, 70].map((height, i) => (
-                        <div key={i} className="flex-1 bg-[#F5A623]/20 rounded-t" style={{ height: `${height}%` }}>
-                          <div className="w-full bg-[#F5A623] rounded-t" style={{ height: '60%' }}></div>
+                      {['h-[40%]', 'h-[65%]', 'h-[45%]', 'h-[80%]', 'h-[55%]', 'h-[90%]', 'h-[70%]'].map((height, i) => (
+                        <div key={i} className={`flex-1 bg-[#F5A623]/20 rounded-t ${height}`}>
+                          <div className="w-full bg-[#F5A623] rounded-t h-[60%]"></div>
                         </div>
                       ))}
                     </div>
@@ -362,6 +362,8 @@ export default function DemoPage() {
             <button
               onClick={() => setShowVideo(false)}
               className="absolute top-4 right-4 z-10 p-2 bg-black/50 hover:bg-black/70 rounded-full text-white transition"
+              aria-label="Close video modal"
+              title="Close"
             >
               <X className="w-6 h-6" />
             </button>
