@@ -12,32 +12,22 @@ import {
 interface CurrencyContextType {
   currency: CurrencyCode;
   currencyConfig: CurrencyConfig;
-  setCurrency: (currency: CurrencyCode) => void;
   isLoading: boolean;
   detectedCountry: string | null;
 }
 
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'exiuscart_currency';
+const CURRENCY_LOCK_KEY = 'exiuscart_currency_lock';
 
 export function CurrencyProvider({ children }: { children: ReactNode }) {
-  const [currency, setCurrencyState] = useState<CurrencyCode>(defaultCurrency);
+  const [currency, setCurrency] = useState<CurrencyCode>(defaultCurrency);
   const [isLoading, setIsLoading] = useState(true);
   const [detectedCountry, setDetectedCountry] = useState<string | null>(null);
 
   useEffect(() => {
     const initCurrency = async () => {
-      // First check localStorage for saved preference
-      const savedCurrency = localStorage.getItem(STORAGE_KEY) as CurrencyCode | null;
-
-      if (savedCurrency && currencies[savedCurrency]) {
-        setCurrencyState(savedCurrency);
-        setIsLoading(false);
-        return;
-      }
-
-      // Try to detect country via IP
+      // Detect country via IP - currency is automatically set based on location
       try {
         const response = await fetch('https://ipapi.co/json/', {
           signal: AbortSignal.timeout(3000), // 3 second timeout
@@ -48,13 +38,21 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
           const countryCode = data.country_code;
           setDetectedCountry(countryCode);
 
+          // Set currency based on IP location - users cannot change this
           const detectedCurrency = countryToCurrency[countryCode] || defaultCurrency;
-          setCurrencyState(detectedCurrency);
-          localStorage.setItem(STORAGE_KEY, detectedCurrency);
+          setCurrency(detectedCurrency);
+
+          // Store for server-side verification during payment
+          sessionStorage.setItem(CURRENCY_LOCK_KEY, JSON.stringify({
+            currency: detectedCurrency,
+            country: countryCode,
+            timestamp: Date.now(),
+          }));
         }
       } catch (error) {
-        // If geo-detection fails, use default
+        // If geo-detection fails, use default currency
         console.log('Geo-detection failed, using default currency');
+        setCurrency(defaultCurrency);
       }
 
       setIsLoading(false);
@@ -63,15 +61,9 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
     initCurrency();
   }, []);
 
-  const setCurrency = (newCurrency: CurrencyCode) => {
-    setCurrencyState(newCurrency);
-    localStorage.setItem(STORAGE_KEY, newCurrency);
-  };
-
   const value: CurrencyContextType = {
     currency,
     currencyConfig: currencies[currency],
-    setCurrency,
     isLoading,
     detectedCountry,
   };

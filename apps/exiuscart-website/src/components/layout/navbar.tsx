@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { Menu, X, ArrowRight } from 'lucide-react';
-import { CurrencySwitcher } from '@/components/ui/currency-switcher';
 
 const navLinks = [
   { href: '/features', label: 'Features' },
@@ -43,7 +42,6 @@ export function Navbar() {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-4">
-            <CurrencySwitcher />
             <Link
               href="/login"
               className="text-gray-400 hover:text-white transition-colors text-sm"
