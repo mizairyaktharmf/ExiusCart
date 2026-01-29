@@ -148,6 +148,16 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/roadmap" className="text-gray-500 hover:text-gray-300 text-sm transition">
+                  Roadmap
+                </Link>
+              </li>
+              <li>
+                <Link href="/industries" className="text-gray-500 hover:text-gray-300 text-sm transition">
+                  Industries
+                </Link>
+              </li>
+              <li>
                 <Link href="/referral" className="text-gray-500 hover:text-gray-300 text-sm transition">
                   Referral Program
                 </Link>
