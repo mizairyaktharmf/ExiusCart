@@ -19,11 +19,8 @@ export default function PricingPage() {
   const [showComingSoon, setShowComingSoon] = useState(false);
 
   const handleMonthlyClick = () => {
-    if (!hasMonthlyPricing) {
-      setShowComingSoon(true);
-    } else {
-      setBillingPeriod('monthly');
-    }
+    // Always show coming soon - monthly plans are not ready yet
+    setShowComingSoon(true);
   };
 
   // Get prices for current currency
@@ -98,13 +95,9 @@ export default function PricingPage() {
               </button>
               <button
                 onClick={handleMonthlyClick}
-                className={`px-6 py-2 rounded-md font-medium text-sm transition-all ${
-                  billingPeriod === 'monthly' && hasMonthlyPricing
-                    ? 'bg-[#F5A623] text-black'
-                    : 'text-gray-400 hover:text-gray-300'
-                }`}
+                className="px-6 py-2 rounded-md font-medium text-sm transition-all text-gray-400 hover:text-gray-300"
               >
-                Monthly {!hasMonthlyPricing && <span className="text-xs ml-1">(Soon)</span>}
+                Monthly <span className="text-xs ml-1">(Soon)</span>
               </button>
             </div>
           </div>
