@@ -19,6 +19,7 @@ interface CurrencyContextType {
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
 
 const CURRENCY_LOCK_KEY = 'exiuscart_currency_lock';
+const validCurrencies: CurrencyCode[] = ['AED', 'SAR', 'LKR', 'INR', 'USD'];
 
 export function CurrencyProvider({ children }: { children: ReactNode }) {
   const [currency, setCurrency] = useState<CurrencyCode>(defaultCurrency);
@@ -27,6 +28,19 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const initCurrency = async () => {
+      // Check for test/preview currency in URL (for development only)
+      // Usage: ?preview_currency=LKR or ?preview_currency=INR
+      const urlParams = new URLSearchParams(window.location.search);
+      const previewCurrency = urlParams.get('preview_currency') as CurrencyCode | null;
+
+      if (previewCurrency && validCurrencies.includes(previewCurrency)) {
+        // Use preview currency for testing (doesn't affect actual payments)
+        setCurrency(previewCurrency);
+        setDetectedCountry('PREVIEW');
+        setIsLoading(false);
+        return;
+      }
+
       // Detect country via IP - currency is automatically set based on location
       try {
         const response = await fetch('https://ipapi.co/json/', {
