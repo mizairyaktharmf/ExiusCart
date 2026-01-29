@@ -1,7 +1,20 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { ArrowLeft, Shield, Lock, Eye, Database, Bell, Trash2, Globe, Mail } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy | ExiusCart',
+  description: 'ExiusCart privacy policy. Learn how we collect, use, and protect your data. We respect your privacy and keep your business information secure.',
+  openGraph: {
+    title: 'Privacy Policy | ExiusCart',
+    description: 'ExiusCart privacy policy. How we collect, use and protect your data.',
+    url: 'https://exiuscart.com/privacy',
+    siteName: 'ExiusCart',
+    type: 'website',
+  },
+};
 
 export default function PrivacyPage() {
   return (

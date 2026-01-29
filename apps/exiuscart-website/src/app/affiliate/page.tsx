@@ -1,7 +1,20 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { ArrowRight, Briefcase, TrendingUp, BarChart3, CheckCircle, Award, Layers } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
+
+export const metadata: Metadata = {
+  title: 'Affiliate Program | Earn 10-20% Commission | ExiusCart Reseller',
+  description: 'Join the ExiusCart affiliate program. Earn 10-20% commission on every sale as an IT consultant, POS installer, or business advisor. Professional reseller partnership.',
+  openGraph: {
+    title: 'ExiusCart Affiliate Program | Earn 10-20% Commission',
+    description: 'Join the ExiusCart affiliate program. Earn commissions as a reseller partner.',
+    url: 'https://exiuscart.com/affiliate',
+    siteName: 'ExiusCart',
+    type: 'website',
+  },
+};
 
 export default function AffiliatePage() {
   return (

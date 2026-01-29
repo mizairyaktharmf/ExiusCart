@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import {
   ArrowRight,
   Check,
@@ -15,6 +16,18 @@ import {
 } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
+
+export const metadata: Metadata = {
+  title: 'POS & Invoicing | VAT Compliant Billing System | ExiusCart',
+  description: 'Fast point of sale with UAE VAT compliant invoicing. Multiple payment methods, thermal printer support, Arabic/English receipts. Professional billing for small shops.',
+  openGraph: {
+    title: 'POS & Invoicing | VAT Compliant | ExiusCart',
+    description: 'Fast POS with UAE VAT compliant invoicing. Multiple payments, thermal printing & more.',
+    url: 'https://exiuscart.com/features/pos',
+    siteName: 'ExiusCart',
+    type: 'website',
+  },
+};
 
 const posFeatures = [
   {

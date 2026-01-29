@@ -1,7 +1,20 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { ArrowRight, Check } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
+
+export const metadata: Metadata = {
+  title: 'Features | POS, Inventory, WhatsApp Orders & Reports | ExiusCart',
+  description: 'Explore ExiusCart features: Point of Sale, VAT invoicing, inventory management, WhatsApp orders, sales reports. Everything you need to run your small business.',
+  openGraph: {
+    title: 'ExiusCart Features | POS, Inventory, WhatsApp Orders',
+    description: 'Explore ExiusCart features. POS, invoicing, inventory, WhatsApp orders and reports.',
+    url: 'https://exiuscart.com/features',
+    siteName: 'ExiusCart',
+    type: 'website',
+  },
+};
 
 export default function FeaturesPage() {
   return (

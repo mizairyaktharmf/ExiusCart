@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import {
   ArrowRight,
   Check,
@@ -17,6 +18,18 @@ import {
 } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
+
+export const metadata: Metadata = {
+  title: 'Inventory Management | Stock Tracking & Alerts | ExiusCart',
+  description: 'Real-time inventory tracking with low stock alerts, barcode scanning, bulk import/export. Know your stock levels instantly. Perfect for UAE small shops.',
+  openGraph: {
+    title: 'Inventory Management | Stock Tracking | ExiusCart',
+    description: 'Real-time inventory tracking with alerts, barcode scanning and bulk import/export.',
+    url: 'https://exiuscart.com/features/inventory',
+    siteName: 'ExiusCart',
+    type: 'website',
+  },
+};
 
 const inventoryFeatures = [
   {

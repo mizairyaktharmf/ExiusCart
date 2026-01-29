@@ -1,7 +1,20 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { ArrowRight, Zap, Bug, Sparkles, Shield } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
+
+export const metadata: Metadata = {
+  title: 'Changelog | New Features & Updates | ExiusCart',
+  description: 'See what\'s new in ExiusCart. Latest features, improvements, bug fixes and updates. We ship new improvements regularly to help your business grow.',
+  openGraph: {
+    title: 'ExiusCart Changelog | New Features & Updates',
+    description: 'See what\'s new in ExiusCart. Latest features, improvements and bug fixes.',
+    url: 'https://exiuscart.com/changelog',
+    siteName: 'ExiusCart',
+    type: 'website',
+  },
+};
 
 export default function ChangelogPage() {
   return (

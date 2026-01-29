@@ -1,7 +1,20 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { ArrowRight, Target, Rocket, Globe, Users, Code, Zap, ShieldCheck, Heart, MapPin, Building2, TrendingUp } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
+
+export const metadata: Metadata = {
+  title: 'About ExiusCart | Our Story, Mission & Team | NexCodeNova',
+  description: 'Learn about ExiusCart by NexCodeNova. We build affordable business management tools for small shops in UAE, Sri Lanka & beyond. Our mission is to empower local businesses.',
+  openGraph: {
+    title: 'About ExiusCart | Our Story & Mission',
+    description: 'Learn about ExiusCart by NexCodeNova. Affordable business tools for small shops in UAE & beyond.',
+    url: 'https://exiuscart.com/about',
+    siteName: 'ExiusCart',
+    type: 'website',
+  },
+};
 
 export default function AboutPage() {
   return (

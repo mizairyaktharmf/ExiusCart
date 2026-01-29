@@ -1,7 +1,20 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { ArrowRight, MessageCircle, FileText, Printer, BarChart3, CreditCard, Globe, Smartphone, Mail, Package, ShoppingCart, Receipt } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
+
+export const metadata: Metadata = {
+  title: 'Integrations | WhatsApp, Printers, Payment Gateways & More | ExiusCart',
+  description: 'Connect ExiusCart with WhatsApp Business, thermal printers, payment gateways, and more. Seamless integrations to streamline your small business operations.',
+  openGraph: {
+    title: 'ExiusCart Integrations | WhatsApp, Printers & More',
+    description: 'Connect ExiusCart with WhatsApp, thermal printers, payment gateways and more tools.',
+    url: 'https://exiuscart.com/integrations',
+    siteName: 'ExiusCart',
+    type: 'website',
+  },
+};
 
 export default function IntegrationsPage() {
   return (

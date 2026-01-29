@@ -1,7 +1,20 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { ArrowRight, MessageCircle } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
+
+export const metadata: Metadata = {
+  title: 'Refund Policy | ExiusCart',
+  description: 'ExiusCart refund policy. 7-day free trial, money-back guarantee for eligible purchases. Learn about our fair refund terms for one-time and subscription plans.',
+  openGraph: {
+    title: 'Refund Policy | ExiusCart',
+    description: 'ExiusCart refund policy. 7-day free trial with money-back guarantee for eligible purchases.',
+    url: 'https://exiuscart.com/refund-policy',
+    siteName: 'ExiusCart',
+    type: 'website',
+  },
+};
 
 export default function RefundPolicyPage() {
   return (

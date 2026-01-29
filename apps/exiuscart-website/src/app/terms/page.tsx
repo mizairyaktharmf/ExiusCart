@@ -1,7 +1,20 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { ArrowLeft } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
+
+export const metadata: Metadata = {
+  title: 'Terms of Service | ExiusCart',
+  description: 'ExiusCart terms of service. Read our terms and conditions for using ExiusCart business management platform. Fair, transparent policies for all users.',
+  openGraph: {
+    title: 'Terms of Service | ExiusCart',
+    description: 'ExiusCart terms of service. Fair, transparent policies for all users.',
+    url: 'https://exiuscart.com/terms',
+    siteName: 'ExiusCart',
+    type: 'website',
+  },
+};
 
 export default function TermsPage() {
   return (

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import {
   ArrowRight,
   Check,
@@ -15,6 +16,18 @@ import {
 } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
+
+export const metadata: Metadata = {
+  title: 'WhatsApp Orders | Receive Orders via WhatsApp | ExiusCart',
+  description: 'Let customers order through WhatsApp. Share your product catalog, receive orders, send confirmations automatically. Boost sales with WhatsApp ordering.',
+  openGraph: {
+    title: 'WhatsApp Orders | ExiusCart',
+    description: 'Let customers order through WhatsApp. Product catalog, orders, auto-confirmations.',
+    url: 'https://exiuscart.com/features/whatsapp-orders',
+    siteName: 'ExiusCart',
+    type: 'website',
+  },
+};
 
 const whatsappFeatures = [
   {

@@ -1,7 +1,20 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { ArrowRight, Check, X, Star, DollarSign, Smartphone, Globe } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
+
+export const metadata: Metadata = {
+  title: 'Compare ExiusCart vs Other POS Systems | Feature Comparison',
+  description: 'See how ExiusCart compares to other POS and business management solutions. 80% more affordable, UAE VAT compliant, WhatsApp orders & more features for small businesses.',
+  openGraph: {
+    title: 'Compare ExiusCart vs Other POS Systems',
+    description: 'See how ExiusCart compares to competitors. 80% more affordable with UAE-specific features.',
+    url: 'https://exiuscart.com/compare',
+    siteName: 'ExiusCart',
+    type: 'website',
+  },
+};
 
 export default function ComparePage() {
   return (

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import {
   ArrowLeft,
   Briefcase,
@@ -23,6 +24,18 @@ import {
 } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
+
+export const metadata: Metadata = {
+  title: 'Careers at NexCodeNova | Join Our Remote-First Team | ExiusCart',
+  description: 'Join NexCodeNova, the team behind ExiusCart. Remote-first culture, competitive pay, and the chance to build tools that empower small businesses worldwide.',
+  openGraph: {
+    title: 'Careers at NexCodeNova | Join Our Team',
+    description: 'Join NexCodeNova. Remote-first culture building tools for small businesses worldwide.',
+    url: 'https://exiuscart.com/careers',
+    siteName: 'ExiusCart',
+    type: 'website',
+  },
+};
 
 export default function CareersPage() {
   return (

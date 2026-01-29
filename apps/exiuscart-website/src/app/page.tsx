@@ -1,9 +1,22 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import type { Metadata } from 'next';
 import { ArrowRight, Check, Star, Quote } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 import { PricingPreview } from '@/components/ui/pricing-preview';
+
+export const metadata: Metadata = {
+  title: 'ExiusCart - Smart Business Management for Small Shops | POS, Invoicing & WhatsApp Orders',
+  description: 'All-in-one business solution for UAE shops. Create VAT invoices, track inventory, receive WhatsApp orders. Affordable one-time pricing starting from AED 499.',
+  openGraph: {
+    title: 'ExiusCart - Smart Business Management for Small Shops',
+    description: 'All-in-one business solution for UAE shops. POS, invoicing, inventory & WhatsApp orders.',
+    url: 'https://exiuscart.com',
+    siteName: 'ExiusCart',
+    type: 'website',
+  },
+};
 
 export default function HomePage() {
   return (

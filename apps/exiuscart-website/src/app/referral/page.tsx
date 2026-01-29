@@ -1,7 +1,20 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { ArrowRight, Gift, Users, DollarSign, Share2, CheckCircle, MessageCircle } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
+
+export const metadata: Metadata = {
+  title: 'Referral Program | Earn 10% Commission | ExiusCart',
+  description: 'Refer a business to ExiusCart and earn 10% commission. Your referral gets 10% off their first purchase. Easy rewards for sharing ExiusCart with shop owners.',
+  openGraph: {
+    title: 'ExiusCart Referral Program | Earn 10% Commission',
+    description: 'Refer a business to ExiusCart and earn rewards. Your referral gets 10% off too!',
+    url: 'https://exiuscart.com/referral',
+    siteName: 'ExiusCart',
+    type: 'website',
+  },
+};
 
 export default function ReferralPage() {
   return (

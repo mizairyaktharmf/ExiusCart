@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import {
   ArrowRight,
   Check,
@@ -17,6 +18,18 @@ import {
 } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
+
+export const metadata: Metadata = {
+  title: 'Reports & Analytics | Sales, Inventory & Profit Reports | ExiusCart',
+  description: 'Powerful business reports: sales analytics, profit tracking, inventory reports. Export to PDF and Excel. Make data-driven decisions for your small business.',
+  openGraph: {
+    title: 'Reports & Analytics | ExiusCart',
+    description: 'Powerful business reports: sales, profit, inventory. Export to PDF and Excel.',
+    url: 'https://exiuscart.com/features/reports',
+    siteName: 'ExiusCart',
+    type: 'website',
+  },
+};
 
 const reportFeatures = [
   {
