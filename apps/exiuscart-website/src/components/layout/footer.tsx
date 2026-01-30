@@ -138,6 +138,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/blog" className="text-gray-500 hover:text-gray-300 text-sm transition">
+                  Blog
+                </Link>
+              </li>
+              <li>
                 <Link href="/careers" className="text-gray-500 hover:text-gray-300 text-sm transition">
                   Careers
                 </Link>
@@ -161,17 +166,6 @@ export function Footer() {
                 <Link href="/partners" className="text-gray-500 hover:text-gray-300 text-sm transition">
                   Partner Program
                 </Link>
-              </li>
-              <li>
-                <a
-                  href="https://wa.me/971563531043"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-500 hover:text-[#25D366] text-sm transition inline-flex items-center gap-1"
-                >
-                  <MessageCircle className="w-3 h-3" />
-                  WhatsApp
-                </a>
               </li>
             </ul>
           </div>
