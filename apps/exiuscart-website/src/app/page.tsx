@@ -56,39 +56,81 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right - Product Preview */}
+            {/* Right - Product Preview - Laptop + Mobile Mockup */}
             <div className="relative hidden lg:block">
               <div className="relative">
-                {/* Desktop Dashboard */}
-                <div className="bg-[#151F32] rounded-xl border border-gray-800 shadow-2xl overflow-hidden">
-                  <div className="bg-[#1A2540] px-4 py-3 flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
-                    <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
-                    <div className="w-3 h-3 rounded-full bg-[#27CA40]"></div>
+                {/* Laptop Frame */}
+                <div className="relative">
+                  {/* Laptop Screen */}
+                  <div className="bg-[#1a1a1a] rounded-t-xl p-2 pb-0 relative shadow-2xl">
+                    {/* Screen bezel */}
+                    <div className="bg-[#0B1121] rounded-t-lg overflow-hidden border border-gray-700">
+                      {/* Browser header */}
+                      <div className="bg-[#1A2540] px-4 py-2 flex items-center gap-2">
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]"></div>
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]"></div>
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#27CA40]"></div>
+                        <div className="ml-4 flex-1 bg-[#0B1121] rounded px-3 py-1 text-xs text-gray-500">
+                          app.exiuscart.com
+                        </div>
+                      </div>
+                      {/* Dashboard screenshot */}
+                      <Image
+                        src="/images/dashboard-preview.png"
+                        alt="ExiusCart Dashboard Preview"
+                        width={600}
+                        height={380}
+                        className="w-full h-auto"
+                        priority
+                      />
+                    </div>
                   </div>
-                  <Image
-                    src="/images/dashboard-preview.png"
-                    alt="ExiusCart Dashboard Preview"
-                    width={600}
-                    height={400}
-                    className="w-full h-auto"
-                    priority
-                  />
+                  {/* Laptop base/keyboard */}
+                  <div className="bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] h-4 rounded-b-lg relative">
+                    {/* Notch */}
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-1.5 bg-[#1a1a1a] rounded-b-lg"></div>
+                  </div>
+                  {/* Laptop bottom stand */}
+                  <div className="bg-gradient-to-b from-[#333] to-[#222] h-2 mx-12 rounded-b-xl"></div>
                 </div>
 
-                {/* Mobile Preview */}
-                <div className="absolute -right-4 -bottom-4 w-40 bg-[#151F32] rounded-2xl border border-gray-800 shadow-xl overflow-hidden">
-                  <div className="bg-[#1A2540] px-3 py-2">
-                    <div className="w-12 h-1 bg-gray-700 rounded mx-auto"></div>
+                {/* Mobile Phone - Smaller, positioned at bottom-right of laptop */}
+                <div className="absolute right-4 -bottom-6 w-28 z-10">
+                  {/* Phone Frame */}
+                  <div className="bg-[#1a1a1a] rounded-[1.25rem] p-1.5 shadow-2xl border border-gray-700">
+                    {/* Phone screen */}
+                    <div className="bg-[#0B1121] rounded-[1rem] overflow-hidden relative">
+                      {/* Notch */}
+                      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-3 bg-[#1a1a1a] rounded-b-xl z-10"></div>
+                      {/* Mobile app screenshot */}
+                      <Image
+                        src="/images/dashboard-preview-mobile.png"
+                        alt="ExiusCart Mobile App"
+                        width={120}
+                        height={240}
+                        className="w-full h-auto"
+                      />
+                    </div>
+                    {/* Home indicator */}
+                    <div className="flex justify-center py-1">
+                      <div className="w-12 h-0.5 bg-gray-600 rounded-full"></div>
+                    </div>
                   </div>
-                  <Image
-                    src="/images/dashboard-preview-mobile.png"
-                    alt="ExiusCart Mobile Preview"
-                    width={160}
-                    height={200}
-                    className="w-full h-auto"
-                  />
                 </div>
+
+                {/* Connection line between laptop and mobile */}
+                <svg className="absolute right-20 -bottom-2 w-16 h-12 z-0" viewBox="0 0 80 60">
+                  <path
+                    d="M 0 10 Q 40 10, 60 40 T 80 50"
+                    fill="none"
+                    stroke="#F5A623"
+                    strokeWidth="2"
+                    strokeDasharray="4 4"
+                    opacity="0.5"
+                  />
+                  <circle cx="0" cy="10" r="3" fill="#F5A623" opacity="0.7" />
+                  <circle cx="80" cy="50" r="3" fill="#F5A623" opacity="0.7" />
+                </svg>
               </div>
             </div>
           </div>
