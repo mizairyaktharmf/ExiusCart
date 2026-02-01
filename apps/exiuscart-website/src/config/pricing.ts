@@ -1,4 +1,4 @@
-export type CurrencyCode = 'AED' | 'SAR' | 'LKR' | 'INR' | 'USD';
+export type CurrencyCode = 'AED' | 'LKR' | 'USD';
 
 export interface CurrencyConfig {
   code: CurrencyCode;
@@ -27,7 +27,7 @@ export interface Plan {
   bonusFeatures?: string[];
 }
 
-// Currency configurations
+// Currency configurations - Only AED, LKR, USD
 export const currencies: Record<CurrencyCode, CurrencyConfig> = {
   AED: {
     code: 'AED',
@@ -35,15 +35,6 @@ export const currencies: Record<CurrencyCode, CurrencyConfig> = {
     name: 'UAE Dirham',
     country: 'United Arab Emirates',
     flag: '🇦🇪',
-    showProPlus: true,
-    showMonthly: true,
-  },
-  SAR: {
-    code: 'SAR',
-    symbol: 'SAR',
-    name: 'Saudi Riyal',
-    country: 'Saudi Arabia',
-    flag: '🇸🇦',
     showProPlus: true,
     showMonthly: true,
   },
@@ -56,21 +47,12 @@ export const currencies: Record<CurrencyCode, CurrencyConfig> = {
     showProPlus: false,
     showMonthly: false,
   },
-  INR: {
-    code: 'INR',
-    symbol: '₹',
-    name: 'Indian Rupee',
-    country: 'India',
-    flag: '🇮🇳',
-    showProPlus: false,
-    showMonthly: false,
-  },
   USD: {
     code: 'USD',
     symbol: '$',
     name: 'US Dollar',
-    country: 'United States',
-    flag: '🇺🇸',
+    country: 'International',
+    flag: '🌍',
     showProPlus: false,
     showMonthly: false,
   },
@@ -156,22 +138,10 @@ export const pricing: Record<CurrencyCode, Record<string, PlanPricing>> = {
     pro: { oneTime: 999, originalOneTime: 1199 },
     proplus: { oneTime: 1299, originalOneTime: 1499 },
   },
-  SAR: {
-    starter: { oneTime: 499, originalOneTime: 599 },
-    business: { oneTime: 699, originalOneTime: 799 },
-    pro: { oneTime: 999, originalOneTime: 1199 },
-    proplus: { oneTime: 1299, originalOneTime: 1499 },
-  },
   LKR: {
     starter: { oneTime: 6999, originalOneTime: 8999 },
     business: { oneTime: 8999, originalOneTime: 10999 },
     pro: { oneTime: 12999, originalOneTime: 15999 },
-    proplus: { oneTime: 0, originalOneTime: 0 }, // Not available
-  },
-  INR: {
-    starter: { oneTime: 1999, originalOneTime: 2999 },
-    business: { oneTime: 4999, originalOneTime: 5999 },
-    pro: { oneTime: 9999, originalOneTime: 11999 },
     proplus: { oneTime: 0, originalOneTime: 0 }, // Not available
   },
   USD: {
@@ -182,47 +152,36 @@ export const pricing: Record<CurrencyCode, Record<string, PlanPricing>> = {
   },
 };
 
-// Monthly pricing (only for AED and SAR)
+// Monthly pricing (only for AED)
 export const monthlyPricing: Record<CurrencyCode, Record<string, PlanPricing> | null> = {
   AED: {
-    starter: { monthly: 49, originalMonthly: 59 },
-    business: { monthly: 79, originalMonthly: 99 },
-    pro: { monthly: 129, originalMonthly: 159 },
-    proplus: { monthly: 179, originalMonthly: 199 },
-  },
-  SAR: {
-    starter: { monthly: 49, originalMonthly: 59 },
-    business: { monthly: 79, originalMonthly: 99 },
-    pro: { monthly: 129, originalMonthly: 159 },
-    proplus: { monthly: 179, originalMonthly: 199 },
+    starter: { oneTime: 499, originalOneTime: 599, monthly: 49, originalMonthly: 59 },
+    business: { oneTime: 699, originalOneTime: 799, monthly: 79, originalMonthly: 99 },
+    pro: { oneTime: 999, originalOneTime: 1199, monthly: 129, originalMonthly: 159 },
+    proplus: { oneTime: 1299, originalOneTime: 1499, monthly: 179, originalMonthly: 199 },
   },
   LKR: null, // Coming soon
-  INR: null, // Coming soon
   USD: null, // Coming soon
 };
 
 // Country to currency mapping
+// UAE -> AED, Sri Lanka -> LKR, Everyone else -> USD
 export const countryToCurrency: Record<string, CurrencyCode> = {
-  AE: 'AED', // UAE
-  SA: 'SAR', // Saudi Arabia
-  LK: 'LKR', // Sri Lanka
-  IN: 'INR', // India
-  US: 'USD', // USA
-  // GCC countries - use AED
-  BH: 'AED', // Bahrain
-  KW: 'AED', // Kuwait
-  OM: 'AED', // Oman
-  QA: 'AED', // Qatar
+  // UAE
+  AE: 'AED',
+  // Sri Lanka
+  LK: 'LKR',
+  // All other countries will use defaultCurrency (USD)
 };
 
-// Default currency for unknown countries
+// Default currency for unknown countries (everyone except UAE and Sri Lanka)
 export const defaultCurrency: CurrencyCode = 'USD';
 
 // Helper function to format price
 export function formatPrice(amount: number, currency: CurrencyCode): string {
   const config = currencies[currency];
 
-  if (currency === 'LKR' || currency === 'INR') {
+  if (currency === 'LKR') {
     return `${config.symbol}${amount.toLocaleString()}`;
   }
 

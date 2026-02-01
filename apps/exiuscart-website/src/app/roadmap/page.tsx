@@ -167,7 +167,7 @@ export default function RoadmapPage() {
               <RoadmapItem
                 status="completed"
                 title="Multi-Currency Support"
-                description="Auto-detect region and display prices in AED, SAR, LKR, INR, or USD."
+                description="Auto-detect region and display prices in AED, LKR, or USD."
               />
               <RoadmapItem
                 status="completed"

@@ -194,7 +194,7 @@ export default function PricingPage() {
               }}
             />
 
-            {/* Pro+ with Thermal Printer - Only show for AED/SAR */}
+            {/* Pro+ with Thermal Printer - Only show for AED */}
             {showProPlus && (
               <PricingCard
                 name="Pro+"

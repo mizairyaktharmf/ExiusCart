@@ -204,7 +204,7 @@ export default function IntegrationsPage() {
                 </div>
               </div>
               <p className="text-gray-400 text-sm leading-relaxed">
-                Support for AED, SAR, LKR, INR, and USD with automatic region detection.
+                Support for AED, LKR, and USD with automatic region detection.
               </p>
             </div>
 

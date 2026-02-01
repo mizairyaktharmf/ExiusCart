@@ -53,7 +53,7 @@ export default function ChangelogPage() {
               <div className="space-y-3">
                 <div className="flex items-start gap-3">
                   <Sparkles className="w-4 h-4 text-purple-400 mt-1 flex-shrink-0" />
-                  <span className="text-gray-400 text-sm">Auto-detect user region and display prices in local currency (AED, SAR, LKR, INR, USD)</span>
+                  <span className="text-gray-400 text-sm">Auto-detect user region and display prices in local currency (AED, LKR, USD)</span>
                 </div>
                 <div className="flex items-start gap-3">
                   <Sparkles className="w-4 h-4 text-purple-400 mt-1 flex-shrink-0" />
