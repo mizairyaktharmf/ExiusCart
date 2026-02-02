@@ -6,15 +6,14 @@ export interface CurrencyConfig {
   name: string;
   country: string;
   flag: string;
-  showProPlus: boolean;
   showMonthly: boolean;
 }
 
 export interface PlanPricing {
   oneTime: number;
   originalOneTime: number;
-  monthly?: number;
-  originalMonthly?: number;
+  monthly: number;
+  originalMonthly: number;
 }
 
 export interface Plan {
@@ -24,7 +23,6 @@ export interface Plan {
   features: string[];
   highlighted?: boolean;
   badge?: string;
-  bonusFeatures?: string[];
 }
 
 // Currency configurations - Only AED, LKR, USD
@@ -35,7 +33,6 @@ export const currencies: Record<CurrencyCode, CurrencyConfig> = {
     name: 'UAE Dirham',
     country: 'United Arab Emirates',
     flag: '🇦🇪',
-    showProPlus: true,
     showMonthly: true,
   },
   LKR: {
@@ -44,8 +41,7 @@ export const currencies: Record<CurrencyCode, CurrencyConfig> = {
     name: 'Sri Lankan Rupee',
     country: 'Sri Lanka',
     flag: '🇱🇰',
-    showProPlus: false,
-    showMonthly: false,
+    showMonthly: true,
   },
   USD: {
     code: 'USD',
@@ -53,12 +49,12 @@ export const currencies: Record<CurrencyCode, CurrencyConfig> = {
     name: 'US Dollar',
     country: 'International',
     flag: '🌍',
-    showProPlus: false,
-    showMonthly: false,
+    showMonthly: true,
   },
 };
 
 // Plan details (features are the same across all currencies)
+// Only 3 plans: Starter, Business, Pro (No Pro+)
 export const plans: Plan[] = [
   {
     id: 'starter',
@@ -106,62 +102,25 @@ export const plans: Plan[] = [
       'Priority Support',
     ],
   },
-  {
-    id: 'proplus',
-    name: 'Pro+',
-    description: 'Everything + Free Thermal Printer',
-    badge: 'Best Value',
-    bonusFeatures: [
-      'Free Thermal Printer',
-      'Unlimited Products',
-      'Multiple Staff',
-      'WhatsApp Orders',
-      'Full Inventory System',
-      'Premium Support',
-    ],
-    features: [
-      'Everything in Pro',
-      'Unlimited Products',
-      'Multiple Staff Accounts',
-      'Free Thermal Printer',
-      'Premium 24/7 Support',
-      'Custom Branding',
-    ],
-  },
 ];
 
-// Pricing by currency (one-time payments)
+// Pricing by currency (one-time and monthly)
 export const pricing: Record<CurrencyCode, Record<string, PlanPricing>> = {
   AED: {
-    starter: { oneTime: 499, originalOneTime: 599 },
-    business: { oneTime: 699, originalOneTime: 799 },
-    pro: { oneTime: 999, originalOneTime: 1199 },
-    proplus: { oneTime: 1299, originalOneTime: 1499 },
+    starter: { oneTime: 499, originalOneTime: 599, monthly: 29, originalMonthly: 39 },
+    business: { oneTime: 699, originalOneTime: 799, monthly: 49, originalMonthly: 69 },
+    pro: { oneTime: 999, originalOneTime: 1199, monthly: 59, originalMonthly: 79 },
   },
   LKR: {
-    starter: { oneTime: 6999, originalOneTime: 8999 },
-    business: { oneTime: 8999, originalOneTime: 10999 },
-    pro: { oneTime: 12999, originalOneTime: 15999 },
-    proplus: { oneTime: 0, originalOneTime: 0 }, // Not available
+    starter: { oneTime: 6999, originalOneTime: 8999, monthly: 999, originalMonthly: 1299 },
+    business: { oneTime: 8999, originalOneTime: 10999, monthly: 1399, originalMonthly: 1799 },
+    pro: { oneTime: 12999, originalOneTime: 15999, monthly: 2999, originalMonthly: 3999 },
   },
   USD: {
-    starter: { oneTime: 49, originalOneTime: 69 },
-    business: { oneTime: 119, originalOneTime: 149 },
-    pro: { oneTime: 299, originalOneTime: 399 },
-    proplus: { oneTime: 0, originalOneTime: 0 }, // Not available
+    starter: { oneTime: 49, originalOneTime: 69, monthly: 4.99, originalMonthly: 6.99 },
+    business: { oneTime: 119, originalOneTime: 149, monthly: 6.99, originalMonthly: 9.99 },
+    pro: { oneTime: 299, originalOneTime: 399, monthly: 12.99, originalMonthly: 17.99 },
   },
-};
-
-// Monthly pricing (only for AED)
-export const monthlyPricing: Record<CurrencyCode, Record<string, PlanPricing> | null> = {
-  AED: {
-    starter: { oneTime: 499, originalOneTime: 599, monthly: 49, originalMonthly: 59 },
-    business: { oneTime: 699, originalOneTime: 799, monthly: 79, originalMonthly: 99 },
-    pro: { oneTime: 999, originalOneTime: 1199, monthly: 129, originalMonthly: 159 },
-    proplus: { oneTime: 1299, originalOneTime: 1499, monthly: 179, originalMonthly: 199 },
-  },
-  LKR: null, // Coming soon
-  USD: null, // Coming soon
 };
 
 // Country to currency mapping
@@ -192,9 +151,16 @@ export function formatPrice(amount: number, currency: CurrencyCode): string {
   return `${amount.toLocaleString()} ${config.symbol}`;
 }
 
-// Helper to get savings amount
+// Helper to get savings amount (one-time)
 export function getSavings(planId: string, currency: CurrencyCode): number {
   const planPricing = pricing[currency][planId];
   if (!planPricing) return 0;
   return planPricing.originalOneTime - planPricing.oneTime;
+}
+
+// Helper to get monthly savings
+export function getMonthlySavings(planId: string, currency: CurrencyCode): number {
+  const planPricing = pricing[currency][planId];
+  if (!planPricing) return 0;
+  return planPricing.originalMonthly - planPricing.monthly;
 }
