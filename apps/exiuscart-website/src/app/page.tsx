@@ -58,8 +58,6 @@ export default function HomePage() {
                 </Link>
               </div>
 
-              {/* Running Promo Banner - Seasonal Offers */}
-              <RunningPromoBanner />
             </div>
 
             {/* Right - Product Preview - Laptop + Mobile Mockup */}
@@ -140,6 +138,9 @@ export default function HomePage() {
               </div>
             </div>
           </div>
+
+          {/* Running Promo Banner - Centered */}
+          <RunningPromoBanner />
         </div>
       </section>
 
