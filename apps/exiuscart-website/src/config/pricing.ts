@@ -11,9 +11,7 @@ export interface CurrencyConfig {
 
 export interface PlanPricing {
   oneTime: number;
-  originalOneTime: number;
   monthly: number;
-  originalMonthly: number;
 }
 
 export interface Plan {
@@ -24,6 +22,13 @@ export interface Plan {
   highlighted?: boolean;
   badge?: string;
 }
+
+// Promo code configuration
+export const promoCode = {
+  code: 'RAMZAN1447',
+  discount: 20, // 20% off
+  description: 'Get 20% off on checkout',
+};
 
 // Currency configurations - Only AED, LKR, USD
 export const currencies: Record<CurrencyCode, CurrencyConfig> = {
@@ -54,7 +59,7 @@ export const currencies: Record<CurrencyCode, CurrencyConfig> = {
 };
 
 // Plan details (features are the same across all currencies)
-// Only 3 plans: Starter, Business, Pro (No Pro+)
+// Only 3 plans: Starter, Business, Pro
 export const plans: Plan[] = [
   {
     id: 'starter',
@@ -107,19 +112,19 @@ export const plans: Plan[] = [
 // Pricing by currency (one-time and monthly)
 export const pricing: Record<CurrencyCode, Record<string, PlanPricing>> = {
   AED: {
-    starter: { oneTime: 499, originalOneTime: 599, monthly: 29, originalMonthly: 39 },
-    business: { oneTime: 699, originalOneTime: 799, monthly: 49, originalMonthly: 69 },
-    pro: { oneTime: 999, originalOneTime: 1199, monthly: 59, originalMonthly: 79 },
+    starter: { oneTime: 599, monthly: 29 },
+    business: { oneTime: 699, monthly: 49 },
+    pro: { oneTime: 999, monthly: 59 },
   },
   LKR: {
-    starter: { oneTime: 6999, originalOneTime: 8999, monthly: 999, originalMonthly: 1299 },
-    business: { oneTime: 8999, originalOneTime: 10999, monthly: 1399, originalMonthly: 1799 },
-    pro: { oneTime: 12999, originalOneTime: 15999, monthly: 2999, originalMonthly: 3999 },
+    starter: { oneTime: 6999, monthly: 999 },
+    business: { oneTime: 8999, monthly: 1399 },
+    pro: { oneTime: 12999, monthly: 2999 },
   },
   USD: {
-    starter: { oneTime: 49, originalOneTime: 69, monthly: 4.99, originalMonthly: 6.99 },
-    business: { oneTime: 119, originalOneTime: 149, monthly: 6.99, originalMonthly: 9.99 },
-    pro: { oneTime: 299, originalOneTime: 399, monthly: 12.99, originalMonthly: 17.99 },
+    starter: { oneTime: 49, monthly: 4.99 },
+    business: { oneTime: 119, monthly: 6.99 },
+    pro: { oneTime: 299, monthly: 12.99 },
   },
 };
 
@@ -151,16 +156,7 @@ export function formatPrice(amount: number, currency: CurrencyCode): string {
   return `${amount.toLocaleString()} ${config.symbol}`;
 }
 
-// Helper to get savings amount (one-time)
-export function getSavings(planId: string, currency: CurrencyCode): number {
-  const planPricing = pricing[currency][planId];
-  if (!planPricing) return 0;
-  return planPricing.originalOneTime - planPricing.oneTime;
-}
-
-// Helper to get monthly savings
-export function getMonthlySavings(planId: string, currency: CurrencyCode): number {
-  const planPricing = pricing[currency][planId];
-  if (!planPricing) return 0;
-  return planPricing.originalMonthly - planPricing.monthly;
+// Helper to calculate discounted price
+export function getDiscountedPrice(amount: number, discountPercent: number): number {
+  return amount * (1 - discountPercent / 100);
 }

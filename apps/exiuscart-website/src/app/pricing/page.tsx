@@ -2,18 +2,25 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { ArrowRight, Check, X, Users, Package, MessageCircle, Gift } from 'lucide-react';
+import { ArrowRight, Check, X, Users, Package, MessageCircle, Gift, Tag, Copy } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 import { useCurrency } from '@/context/currency-context';
-import { pricing, formatPrice } from '@/config/pricing';
+import { pricing, formatPrice, promoCode } from '@/config/pricing';
 
 export default function PricingPage() {
   const [billingPeriod, setBillingPeriod] = useState<'onetime' | 'monthly'>('onetime');
+  const [copied, setCopied] = useState(false);
   const { currency, currencyConfig, isLoading } = useCurrency();
 
   // Get prices for current currency
   const prices = pricing[currency];
+
+  const copyPromoCode = () => {
+    navigator.clipboard.writeText(promoCode.code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   if (isLoading) {
     return (
@@ -27,8 +34,25 @@ export default function PricingPage() {
     <div className="min-h-screen bg-[#0B1121]">
       <Navbar />
 
+      {/* Promo Code Banner */}
+      <div className="bg-gradient-to-r from-[#F5A623] to-[#E09612] py-3 px-4">
+        <div className="max-w-7xl mx-auto flex items-center justify-center gap-3 flex-wrap">
+          <Tag className="w-5 h-5 text-black" />
+          <span className="text-black font-medium">
+            Use code <span className="font-bold">{promoCode.code}</span> at checkout for {promoCode.discount}% off!
+          </span>
+          <button
+            onClick={copyPromoCode}
+            className="inline-flex items-center gap-1.5 bg-black/20 hover:bg-black/30 text-black font-semibold px-3 py-1 rounded-md text-sm transition-all"
+          >
+            <Copy className="w-4 h-4" />
+            {copied ? 'Copied!' : 'Copy Code'}
+          </button>
+        </div>
+      </div>
+
       {/* Hero */}
-      <section className="pt-28 pb-16 px-4">
+      <section className="pt-20 pb-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Simple, transparent pricing
@@ -79,7 +103,6 @@ export default function PricingPage() {
             <PricingCard
               name="Starter"
               price={billingPeriod === 'onetime' ? prices.starter.oneTime : prices.starter.monthly}
-              originalPrice={billingPeriod === 'onetime' ? prices.starter.originalOneTime : prices.starter.originalMonthly}
               currency={currency}
               period={billingPeriod === 'onetime' ? 'one-time' : 'month'}
               description="Perfect for small shops getting started"
@@ -104,7 +127,6 @@ export default function PricingPage() {
             <PricingCard
               name="Business"
               price={billingPeriod === 'onetime' ? prices.business.oneTime : prices.business.monthly}
-              originalPrice={billingPeriod === 'onetime' ? prices.business.originalOneTime : prices.business.originalMonthly}
               currency={currency}
               period={billingPeriod === 'onetime' ? 'one-time' : 'month'}
               description="For growing shops needing more capacity"
@@ -128,7 +150,6 @@ export default function PricingPage() {
             <PricingCard
               name="Pro"
               price={billingPeriod === 'onetime' ? prices.pro.oneTime : prices.pro.monthly}
-              originalPrice={billingPeriod === 'onetime' ? prices.pro.originalOneTime : prices.pro.originalMonthly}
               currency={currency}
               period={billingPeriod === 'onetime' ? 'one-time' : 'month'}
               description="Complete solution with WhatsApp & Inventory"
@@ -252,6 +273,10 @@ export default function PricingPage() {
               answer="One-time payment gives you lifetime access with no recurring fees. Monthly subscription is flexible - pay as you go and cancel anytime."
             />
             <FAQ
+              question={`How do I use the promo code ${promoCode.code}?`}
+              answer={`Enter the code ${promoCode.code} at checkout to get ${promoCode.discount}% off your purchase. This applies to both one-time and monthly plans.`}
+            />
+            <FAQ
               question="Can I upgrade my plan later?"
               answer="Yes, you can upgrade anytime. You'll only pay the difference between your current plan and the new one."
             />
@@ -277,8 +302,11 @@ export default function PricingPage() {
           <h2 className="text-3xl font-bold text-white mb-4">
             Start your free trial today
           </h2>
-          <p className="text-gray-400 mb-10">
+          <p className="text-gray-400 mb-6">
             7 days free. No credit card required. Cancel anytime.
+          </p>
+          <p className="text-[#F5A623] font-medium mb-6">
+            Don&apos;t forget to use code <span className="font-bold">{promoCode.code}</span> for {promoCode.discount}% off!
           </p>
           <Link
             href="/register"
@@ -298,7 +326,6 @@ export default function PricingPage() {
 function PricingCard({
   name,
   price,
-  originalPrice,
   currency,
   period,
   description,
@@ -308,7 +335,6 @@ function PricingCard({
 }: {
   name: string;
   price: number;
-  originalPrice?: number;
   currency: string;
   period: string;
   description: string;
@@ -316,8 +342,6 @@ function PricingCard({
   highlights: { icon: React.ElementType; text: string }[];
   popular?: boolean;
 }) {
-  const savings = originalPrice ? originalPrice - price : 0;
-
   // Format price - handle decimals for USD
   const formatDisplayPrice = (p: number) => {
     if (Number.isInteger(p)) {
@@ -327,7 +351,6 @@ function PricingCard({
   };
 
   const formattedPrice = formatDisplayPrice(price);
-  const formattedOriginal = originalPrice ? formatDisplayPrice(originalPrice) : undefined;
 
   return (
     <div
@@ -345,16 +368,6 @@ function PricingCard({
       <p className="text-gray-500 text-sm mb-4">{description}</p>
 
       <div className="mb-4">
-        {formattedOriginal && savings > 0 && (
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-lg text-gray-500 line-through">
-              {currency === 'USD' ? '$' : ''}{formattedOriginal} {currency !== 'USD' ? currency : ''}
-            </span>
-            <span className="text-xs font-semibold bg-red-500/20 text-red-400 px-2 py-0.5 rounded">
-              SAVE {currency === 'USD' ? '$' : ''}{savings.toLocaleString(undefined, { maximumFractionDigits: 2 })} {currency !== 'USD' ? currency : ''}
-            </span>
-          </div>
-        )}
         <div className="flex items-baseline gap-1">
           {currency === 'USD' && <span className="text-3xl font-bold text-white">$</span>}
           <span className="text-3xl font-bold text-white">{formattedPrice}</span>

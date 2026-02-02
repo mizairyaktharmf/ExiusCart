@@ -5,6 +5,7 @@ import { ArrowRight, Check, Star, Quote } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 import { PricingPreview } from '@/components/ui/pricing-preview';
+import { PromoBanner } from '@/components/ui/promo-banner';
 
 export const metadata: Metadata = {
   title: 'ExiusCart - Smart Business Management for Small Shops | POS, Invoicing & WhatsApp Orders',
@@ -22,6 +23,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-[#0B1121]">
       <Navbar />
+      <PromoBanner />
 
       {/* Hero Section */}
       <section className="pt-28 pb-16 px-4">
