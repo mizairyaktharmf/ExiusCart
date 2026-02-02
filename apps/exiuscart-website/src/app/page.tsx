@@ -6,6 +6,7 @@ import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 import { PricingPreview } from '@/components/ui/pricing-preview';
 import { PromoBanner } from '@/components/ui/promo-banner';
+import { RunningPromoBanner } from '@/components/ui/running-promo-banner';
 
 export const metadata: Metadata = {
   title: 'ExiusCart - Smart Business Management for Small Shops | POS, Invoicing & WhatsApp Orders',
@@ -56,6 +57,9 @@ export default function HomePage() {
                   View Pricing
                 </Link>
               </div>
+
+              {/* Running Promo Banner - Seasonal Offers */}
+              <RunningPromoBanner />
             </div>
 
             {/* Right - Product Preview - Laptop + Mobile Mockup */}

@@ -2,24 +2,27 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { ArrowRight, Check, X, Users, Package, MessageCircle, Gift, Tag, Copy } from 'lucide-react';
+import { ArrowRight, Check, X, Users, Package, MessageCircle, Gift, Sparkles, Copy } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 import { useCurrency } from '@/context/currency-context';
-import { pricing, formatPrice, promoCode } from '@/config/pricing';
+import { pricing, formatPrice, seasonalOffer } from '@/config/pricing';
 
 export default function PricingPage() {
   const [billingPeriod, setBillingPeriod] = useState<'onetime' | 'monthly'>('onetime');
-  const [copied, setCopied] = useState(false);
+  const [copiedCode, setCopiedCode] = useState<string | null>(null);
   const { currency, currencyConfig, isLoading } = useCurrency();
 
   // Get prices for current currency
   const prices = pricing[currency];
 
-  const copyPromoCode = () => {
-    navigator.clipboard.writeText(promoCode.code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  // Get current promo based on billing period
+  const currentPromo = billingPeriod === 'onetime' ? seasonalOffer.oneTime : seasonalOffer.monthly;
+
+  const copyPromoCode = (code: string) => {
+    navigator.clipboard.writeText(code);
+    setCopiedCode(code);
+    setTimeout(() => setCopiedCode(null), 2000);
   };
 
   if (isLoading) {
@@ -34,22 +37,26 @@ export default function PricingPage() {
     <div className="min-h-screen bg-[#0B1121]">
       <Navbar />
 
-      {/* Promo Code Banner */}
-      <div className="bg-gradient-to-r from-[#F5A623] to-[#E09612] py-3 px-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-center gap-3 flex-wrap">
-          <Tag className="w-5 h-5 text-black" />
-          <span className="text-black font-medium">
-            Use code <span className="font-bold">{promoCode.code}</span> at checkout for {promoCode.discount}% off!
-          </span>
-          <button
-            onClick={copyPromoCode}
-            className="inline-flex items-center gap-1.5 bg-black/20 hover:bg-black/30 text-black font-semibold px-3 py-1 rounded-md text-sm transition-all"
-          >
-            <Copy className="w-4 h-4" />
-            {copied ? 'Copied!' : 'Copy Code'}
-          </button>
+      {/* Promo Code Banner - Shows current promo based on billing period */}
+      {seasonalOffer.isActive && (
+        <div className="bg-gradient-to-r from-[#F5A623] to-[#E09612] py-3 px-4">
+          <div className="max-w-7xl mx-auto flex items-center justify-center gap-3 flex-wrap">
+            <Sparkles className="w-5 h-5 text-black" />
+            <span className="text-black font-bold">{seasonalOffer.name} Sale!</span>
+            <span className="text-black/80">|</span>
+            <span className="text-black font-medium">
+              {billingPeriod === 'onetime' ? 'One-time' : 'Monthly'}: <span className="font-bold">{currentPromo.discount}% OFF</span> with
+            </span>
+            <button
+              onClick={() => copyPromoCode(currentPromo.code)}
+              className="inline-flex items-center gap-1.5 bg-black/20 hover:bg-black/30 text-black font-semibold px-3 py-1 rounded-md text-sm transition-all"
+            >
+              <Copy className="w-4 h-4" />
+              {copiedCode === currentPromo.code ? 'Copied!' : currentPromo.code}
+            </button>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Hero */}
       <section className="pt-20 pb-16 px-4">
@@ -84,6 +91,11 @@ export default function PricingPage() {
                 }`}
               >
                 One-time
+                {seasonalOffer.isActive && (
+                  <span className="ml-2 text-xs bg-black/20 px-1.5 py-0.5 rounded">
+                    {seasonalOffer.oneTime.discount}% OFF
+                  </span>
+                )}
               </button>
               <button
                 onClick={() => setBillingPeriod('monthly')}
@@ -94,6 +106,11 @@ export default function PricingPage() {
                 }`}
               >
                 Monthly
+                {seasonalOffer.isActive && (
+                  <span className="ml-2 text-xs bg-emerald-500/30 text-emerald-300 px-1.5 py-0.5 rounded">
+                    {seasonalOffer.monthly.discount}% OFF
+                  </span>
+                )}
               </button>
             </div>
           </div>
@@ -107,12 +124,12 @@ export default function PricingPage() {
               period={billingPeriod === 'onetime' ? 'one-time' : 'month'}
               description="Perfect for small shops getting started"
               highlights={[
-                { icon: Package, text: '25 Products' },
+                { icon: Package, text: '45 Products' },
                 { icon: Users, text: '1 User Access' },
               ]}
               features={[
                 { text: 'POS & Invoicing', included: true },
-                { text: 'Product Management (25 max)', included: true },
+                { text: 'Product Management (45 max)', included: true },
                 { text: 'Customer Database', included: true },
                 { text: 'Sales Reports', included: true },
                 { text: 'PDF & Excel Export', included: true },
@@ -131,12 +148,12 @@ export default function PricingPage() {
               period={billingPeriod === 'onetime' ? 'one-time' : 'month'}
               description="For growing shops needing more capacity"
               highlights={[
-                { icon: Package, text: '50 Products' },
-                { icon: Users, text: '1 User Access' },
+                { icon: Package, text: '100 Products' },
+                { icon: Users, text: '2 User Access' },
               ]}
               features={[
                 { text: 'Everything in Starter', included: true },
-                { text: 'Product Management (50 max)', included: true },
+                { text: 'Product Management (100 max)', included: true },
                 { text: 'Advanced Reports', included: true },
                 { text: 'Customer Insights', included: true },
                 { text: 'WhatsApp Orders', included: false },
@@ -156,7 +173,7 @@ export default function PricingPage() {
               popular
               highlights={[
                 { icon: Package, text: '100 Products' },
-                { icon: Users, text: '2 User Access' },
+                { icon: Users, text: '3 User Access' },
                 { icon: MessageCircle, text: 'WhatsApp Orders' },
               ]}
               features={[
@@ -238,8 +255,8 @@ export default function PricingPage() {
                 </tr>
               </thead>
               <tbody className="text-sm">
-                <CompareRow feature="Product Listing" starter="25" business="50" pro="100" />
-                <CompareRow feature="Staff Accounts" starter="1" business="1" pro="2" />
+                <CompareRow feature="Product Listing" starter="45" business="100" pro="100" />
+                <CompareRow feature="Staff Accounts" starter="1" business="2" pro="3" />
                 <CompareRow feature="POS & Invoicing" starter business pro />
                 <CompareRow feature="VAT Calculation" starter business pro />
                 <CompareRow feature="Customer Database" starter business pro />
@@ -273,8 +290,8 @@ export default function PricingPage() {
               answer="One-time payment gives you lifetime access with no recurring fees. Monthly subscription is flexible - pay as you go and cancel anytime."
             />
             <FAQ
-              question={`How do I use the promo code ${promoCode.code}?`}
-              answer={`Enter the code ${promoCode.code} at checkout to get ${promoCode.discount}% off your purchase. This applies to both one-time and monthly plans.`}
+              question="How do I use the promo codes?"
+              answer={`Use code ${seasonalOffer.oneTime.code} for ${seasonalOffer.oneTime.discount}% off one-time payments, or ${seasonalOffer.monthly.code} for ${seasonalOffer.monthly.discount}% off monthly subscriptions.`}
             />
             <FAQ
               question="Can I upgrade my plan later?"
@@ -305,9 +322,11 @@ export default function PricingPage() {
           <p className="text-gray-400 mb-6">
             7 days free. No credit card required. Cancel anytime.
           </p>
-          <p className="text-[#F5A623] font-medium mb-6">
-            Don&apos;t forget to use code <span className="font-bold">{promoCode.code}</span> for {promoCode.discount}% off!
-          </p>
+          {seasonalOffer.isActive && (
+            <p className="text-[#F5A623] font-medium mb-6">
+              {seasonalOffer.name} Sale! Use <span className="font-bold">{seasonalOffer.oneTime.code}</span> for {seasonalOffer.oneTime.discount}% off one-time or <span className="font-bold">{seasonalOffer.monthly.code}</span> for {seasonalOffer.monthly.discount}% off monthly!
+            </p>
+          )}
           <Link
             href="/register"
             className="inline-flex items-center justify-center gap-2 bg-[#F5A623] hover:bg-[#E09612] text-black font-semibold px-10 py-4 rounded-lg transition-all"

@@ -23,12 +23,32 @@ export interface Plan {
   badge?: string;
 }
 
-// Promo code configuration
-export const promoCode = {
-  code: 'RAMZAN1447',
-  discount: 20, // 20% off
-  description: 'Get 20% off on checkout',
+// ============================================
+// SEASONAL OFFER CONFIGURATION
+// Easy to update for different seasons/festivals
+// ============================================
+export const seasonalOffer = {
+  // Current season/festival name
+  name: 'Ramzan',
+  isActive: true, // Set to false to disable seasonal offers
+
+  // One-time payment offer
+  oneTime: {
+    code: 'RAMZAN1447',
+    discount: 35, // 35% off
+    description: 'Ramzan Special - 35% off on one-time payment',
+  },
+
+  // Monthly subscription offer
+  monthly: {
+    code: 'WELCOME10',
+    discount: 10, // 10% off
+    description: '10% off on monthly subscription',
+  },
 };
+
+// Legacy single promo code (for backwards compatibility)
+export const promoCode = seasonalOffer.oneTime;
 
 // Currency configurations - Only AED, LKR, USD
 export const currencies: Record<CurrencyCode, CurrencyConfig> = {
@@ -66,7 +86,7 @@ export const plans: Plan[] = [
     name: 'Starter',
     description: 'Perfect for small shops getting started',
     features: [
-      '25 Products',
+      '45 Products',
       '1 User Access',
       'Basic POS',
       'Invoice Generation',
@@ -80,8 +100,8 @@ export const plans: Plan[] = [
     name: 'Business',
     description: 'For growing shops needing more capacity',
     features: [
-      '50 Products',
-      '1 User Access',
+      '100 Products',
+      '2 User Access',
       'Full POS System',
       'Invoice Generation',
       'Customer Management',
@@ -98,7 +118,7 @@ export const plans: Plan[] = [
     badge: 'Most Popular',
     features: [
       '100 Products',
-      '2 User Access',
+      '3 User Access',
       'Full POS System',
       'WhatsApp Orders',
       'Inventory Management',
@@ -112,19 +132,19 @@ export const plans: Plan[] = [
 // Pricing by currency (one-time and monthly)
 export const pricing: Record<CurrencyCode, Record<string, PlanPricing>> = {
   AED: {
-    starter: { oneTime: 599, monthly: 29 },
-    business: { oneTime: 699, monthly: 49 },
-    pro: { oneTime: 999, monthly: 59 },
+    starter: { oneTime: 399, monthly: 29 },
+    business: { oneTime: 499, monthly: 49 },
+    pro: { oneTime: 699, monthly: 59 },
   },
   LKR: {
-    starter: { oneTime: 6999, monthly: 999 },
-    business: { oneTime: 8999, monthly: 1399 },
-    pro: { oneTime: 12999, monthly: 2999 },
+    starter: { oneTime: 12999, monthly: 799 },
+    business: { oneTime: 19999, monthly: 1299 },
+    pro: { oneTime: 29999, monthly: 2499 },
   },
   USD: {
-    starter: { oneTime: 49, monthly: 4.99 },
-    business: { oneTime: 119, monthly: 6.99 },
-    pro: { oneTime: 299, monthly: 12.99 },
+    starter: { oneTime: 99, monthly: 4.99 },
+    business: { oneTime: 139, monthly: 6.99 },
+    pro: { oneTime: 199, monthly: 11.99 },
   },
 };
 

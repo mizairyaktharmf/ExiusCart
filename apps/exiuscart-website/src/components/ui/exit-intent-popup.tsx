@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { X, Gift, Clock, ArrowRight } from 'lucide-react';
-import { promoCode } from '@/config/pricing';
+import { X, Clock, ArrowRight, Sparkles } from 'lucide-react';
+import { seasonalOffer } from '@/config/pricing';
 
 export function ExitIntentPopup() {
   const [isVisible, setIsVisible] = useState(false);
@@ -41,7 +41,7 @@ export function ExitIntentPopup() {
     setIsVisible(false);
   };
 
-  if (!isVisible) return null;
+  if (!isVisible || !seasonalOffer.isActive) return null;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -65,41 +65,51 @@ export function ExitIntentPopup() {
         {/* Gradient Header */}
         <div className="bg-gradient-to-r from-[#F5A623] to-[#FF6B35] p-6 text-center">
           <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Gift className="w-8 h-8 text-white" />
+            <Sparkles className="w-8 h-8 text-white" />
           </div>
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-            Wait! Don&apos;t Leave Yet
+            {seasonalOffer.name} Special Offer!
           </h2>
           <p className="text-white/90">
-            We have a special offer just for you
+            Don&apos;t miss our biggest sale of the year
           </p>
         </div>
 
         {/* Content */}
         <div className="p-6">
-          {/* Offer Box */}
-          <div className="bg-[#151F32] rounded-xl p-6 text-center mb-6 border border-[#F5A623]/30">
-            <p className="text-gray-400 text-sm mb-2">EXCLUSIVE OFFER</p>
-            <div className="text-4xl md:text-5xl font-bold text-[#F5A623] mb-2">
-              {promoCode.discount}% OFF
+          {/* Two Offer Boxes */}
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            {/* One-time Offer */}
+            <div className="bg-[#151F32] rounded-xl p-4 text-center border border-[#F5A623]/30">
+              <p className="text-gray-400 text-xs mb-1">ONE-TIME</p>
+              <div className="text-3xl font-bold text-[#F5A623] mb-1">
+                {seasonalOffer.oneTime.discount}% OFF
+              </div>
+              <div className="bg-[#0B1121] rounded py-2 px-3 border border-dashed border-[#F5A623]">
+                <span className="text-[#F5A623] font-mono text-sm font-bold">
+                  {seasonalOffer.oneTime.code}
+                </span>
+              </div>
             </div>
-            <p className="text-white font-medium">
-              Your First Year Subscription
-            </p>
-            <div className="flex items-center justify-center gap-2 mt-4 text-gray-400 text-sm">
-              <Clock className="w-4 h-4" />
-              <span>Offer expires in 24 hours</span>
+
+            {/* Monthly Offer */}
+            <div className="bg-[#151F32] rounded-xl p-4 text-center border border-emerald-500/30">
+              <p className="text-gray-400 text-xs mb-1">MONTHLY</p>
+              <div className="text-3xl font-bold text-emerald-400 mb-1">
+                {seasonalOffer.monthly.discount}% OFF
+              </div>
+              <div className="bg-[#0B1121] rounded py-2 px-3 border border-dashed border-emerald-500">
+                <span className="text-emerald-400 font-mono text-sm font-bold">
+                  {seasonalOffer.monthly.code}
+                </span>
+              </div>
             </div>
           </div>
 
-          {/* Promo Code */}
-          <div className="bg-[#1A2540] rounded-lg p-4 mb-6">
-            <p className="text-gray-400 text-xs text-center mb-2">USE CODE AT CHECKOUT</p>
-            <div className="bg-[#0B1121] rounded-lg py-3 px-4 text-center border border-dashed border-[#F5A623]">
-              <span className="text-[#F5A623] font-mono text-xl font-bold tracking-wider">
-                {promoCode.code}
-              </span>
-            </div>
+          {/* Timer */}
+          <div className="flex items-center justify-center gap-2 mb-6 text-gray-400 text-sm">
+            <Clock className="w-4 h-4" />
+            <span>Limited time offer</span>
           </div>
 
           {/* Benefits */}
@@ -125,7 +135,7 @@ export function ExitIntentPopup() {
               onClick={handleClose}
               className="flex items-center justify-center gap-2 w-full bg-[#F5A623] hover:bg-[#E09612] text-black font-semibold py-4 rounded-lg transition"
             >
-              Claim Your {promoCode.discount}% Discount
+              Claim Your Discount
               <ArrowRight className="w-5 h-5" />
             </Link>
             <button
