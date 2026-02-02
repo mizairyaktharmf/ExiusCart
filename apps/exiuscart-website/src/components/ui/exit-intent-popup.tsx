@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { X, Gift, Clock, ArrowRight } from 'lucide-react';
+import { promoCode } from '@/config/pricing';
 
 export function ExitIntentPopup() {
   const [isVisible, setIsVisible] = useState(false);
@@ -80,7 +81,7 @@ export function ExitIntentPopup() {
           <div className="bg-[#151F32] rounded-xl p-6 text-center mb-6 border border-[#F5A623]/30">
             <p className="text-gray-400 text-sm mb-2">EXCLUSIVE OFFER</p>
             <div className="text-4xl md:text-5xl font-bold text-[#F5A623] mb-2">
-              20% OFF
+              {promoCode.discount}% OFF
             </div>
             <p className="text-white font-medium">
               Your First Year Subscription
@@ -96,7 +97,7 @@ export function ExitIntentPopup() {
             <p className="text-gray-400 text-xs text-center mb-2">USE CODE AT CHECKOUT</p>
             <div className="bg-[#0B1121] rounded-lg py-3 px-4 text-center border border-dashed border-[#F5A623]">
               <span className="text-[#F5A623] font-mono text-xl font-bold tracking-wider">
-                WELCOME20
+                {promoCode.code}
               </span>
             </div>
           </div>
@@ -124,7 +125,7 @@ export function ExitIntentPopup() {
               onClick={handleClose}
               className="flex items-center justify-center gap-2 w-full bg-[#F5A623] hover:bg-[#E09612] text-black font-semibold py-4 rounded-lg transition"
             >
-              Claim Your 20% Discount
+              Claim Your {promoCode.discount}% Discount
               <ArrowRight className="w-5 h-5" />
             </Link>
             <button
