@@ -368,26 +368,17 @@ export default function DemoPage() {
               <X className="w-6 h-6" />
             </button>
 
-            {/* Video Placeholder */}
-            <div className="aspect-video bg-[#0B1121] flex items-center justify-center">
-              <div className="text-center">
-                <div className="w-20 h-20 bg-[#F5A623]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Play className="w-10 h-10 text-[#F5A623]" />
-                </div>
-                <p className="text-white text-xl font-semibold mb-2">Demo Video Coming Soon</p>
-                <p className="text-gray-400">
-                  We're preparing an amazing demo video for you.
-                  <br />
-                  Start a free trial to explore all features now!
-                </p>
-                <Link
-                  href="/register"
-                  className="inline-flex items-center gap-2 mt-6 bg-[#F5A623] hover:bg-[#E09612] text-black font-semibold px-6 py-3 rounded-lg transition-all"
-                >
-                  Start Free Trial
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
+            {/* Video Player */}
+            <div className="aspect-video bg-[#0B1121]">
+              <video
+                className="w-full h-full"
+                controls
+                autoPlay
+                playsInline
+              >
+                <source src="/video/DEMO.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             </div>
           </div>
         </div>
