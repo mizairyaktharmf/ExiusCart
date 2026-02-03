@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Metadata } from 'next';
 import { ArrowRight, Check } from 'lucide-react';
 import { Navbar } from '@/components/layout/navbar';
@@ -66,8 +67,14 @@ export default function FeaturesPage() {
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-            <div className="bg-[#151F32] rounded-2xl border border-gray-800 p-8 h-80">
-              <div className="h-full bg-[#1A2540] rounded-xl"></div>
+            <div className="bg-[#151F32] rounded-2xl border border-gray-800 p-4 overflow-hidden">
+              <Image
+                src="/images/POS.png"
+                alt="POS & Invoicing Dashboard"
+                width={600}
+                height={400}
+                className="w-full h-auto rounded-xl object-cover"
+              />
             </div>
           </div>
         </div>
@@ -77,8 +84,14 @@ export default function FeaturesPage() {
       <section className="py-20 px-4 bg-[#0D1526]">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="order-2 lg:order-1 bg-[#151F32] rounded-2xl border border-gray-800 p-8 h-80">
-              <div className="h-full bg-[#1A2540] rounded-xl"></div>
+            <div className="order-2 lg:order-1 bg-[#151F32] rounded-2xl border border-gray-800 p-4 overflow-hidden">
+              <Image
+                src="/images/INVENTORY.png"
+                alt="Inventory Management Dashboard"
+                width={600}
+                height={400}
+                className="w-full h-auto rounded-xl object-cover"
+              />
             </div>
             <div className="order-1 lg:order-2">
               <span className="text-[#F5A623] text-sm font-medium mb-4 block">
@@ -143,8 +156,14 @@ export default function FeaturesPage() {
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-            <div className="bg-[#151F32] rounded-2xl border border-gray-800 p-8 h-80">
-              <div className="h-full bg-[#1A2540] rounded-xl"></div>
+            <div className="bg-[#151F32] rounded-2xl border border-gray-800 p-4 overflow-hidden">
+              <Image
+                src="/images/WHATSAPP.png"
+                alt="WhatsApp Orders Dashboard"
+                width={600}
+                height={400}
+                className="w-full h-auto rounded-xl object-cover"
+              />
             </div>
           </div>
         </div>
@@ -154,8 +173,14 @@ export default function FeaturesPage() {
       <section className="py-20 px-4 bg-[#0D1526]">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="order-2 lg:order-1 bg-[#151F32] rounded-2xl border border-gray-800 p-8 h-80">
-              <div className="h-full bg-[#1A2540] rounded-xl"></div>
+            <div className="order-2 lg:order-1 bg-[#151F32] rounded-2xl border border-gray-800 p-4 overflow-hidden">
+              <Image
+                src="/images/CUSTOMER MANAGMENT.png"
+                alt="Customer Management Dashboard"
+                width={600}
+                height={400}
+                className="w-full h-auto rounded-xl object-cover"
+              />
             </div>
             <div className="order-1 lg:order-2">
               <span className="text-[#F5A623] text-sm font-medium mb-4 block">
@@ -212,8 +237,14 @@ export default function FeaturesPage() {
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-            <div className="bg-[#151F32] rounded-2xl border border-gray-800 p-8 h-80">
-              <div className="h-full bg-[#1A2540] rounded-xl"></div>
+            <div className="bg-[#151F32] rounded-2xl border border-gray-800 p-4 overflow-hidden">
+              <Image
+                src="/images/REPORTS.png"
+                alt="Reports & Analytics Dashboard"
+                width={600}
+                height={400}
+                className="w-full h-auto rounded-xl object-cover"
+              />
             </div>
           </div>
         </div>
